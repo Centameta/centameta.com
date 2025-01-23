@@ -1,54 +1,139 @@
-# Centameta Business Index
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centameta - Your Business Partner</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Centameta - Innovate Your Future</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 10%;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-size: 1.2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #34495e;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #1abc9c;
+        }
+
+        section {
+            padding: 50px 10%;
+            text-align: center;
+        }
+
+        .about {
+            background-color: #ecf0f1;
+            padding: 50px 10%;
+        }
+
+        .services {
+            background-color: #ffffff;
+            padding: 50px 10%;
+        }
+
+        .services .card {
+            display: inline-block;
+            background-color: #f4f4f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 300px;
+            margin: 10px;
+            padding: 20px;
+            text-align: left;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 20px 10%;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to Centameta</h1>
-        <nav>
-            <ul>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+        <h1>Centameta</h1>
+        <p>Innovate Your Future</p>
     </header>
-    
-    <section id="services">
-        <h2>Our Services</h2>
-        <p>At Centameta, we offer a range of services to help your business thrive.</p>
-        <ul>
-            <li>Consulting</li>
-            <li>Marketing Solutions</li>
-            <li>Financial Advisory</li>
-        </ul>
-    </section>
-    
-    <section id="about">
+
+    <nav>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="about" class="about">
         <h2>About Us</h2>
-        <p>Centameta is dedicated to providing top-notch business solutions tailored to your needs.</p>
+        <p>At Centameta, we specialize in delivering cutting-edge solutions that empower businesses to thrive in a dynamic and competitive landscape. Our diverse range of services includes:</p>
+        <ul style="text-align: left; display: inline-block;">
+            <li><strong>Custom Software Development:</strong> We create bespoke software tailored to your unique business needs, ensuring exceptional functionality and user experience.</li>
+            <li><strong>Embedded Systems:</strong> Our expertise in embedded systems ensures reliable and efficient solutions for modern devices and industries.</li>
+            <li><strong>Technology Consulting:</strong> Navigate the complexities of innovation with our expert guidance and strategic insights.</li>
+            <li><strong>Data Analytics:</strong> Leverage your data to gain actionable insights, optimize operations, and drive informed decision-making.</li>
+        </ul>
+        <p>With a commitment to innovation, quality, and customer satisfaction, Centameta is your trusted partner in shaping a successful future for your business.</p>
     </section>
-    
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Get in touch with us for more information.</p>
-        <form action="#" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <input type="submit" value="Submit">
-        </form>
+
+    <section id="services" class="services">
+        <h2>Our Services</h2>
+        <div class="card">
+            <h3>Custom Software Development</h3>
+            <p>Building tailored software solutions to meet your business needs and exceed expectations.</p>
+        </div>
+        <div class="card">
+            <h3>Embedded Systems</h3>
+            <p>Providing robust and efficient embedded solutions for modern devices and industries.</p>
+        </div>
+        <div class="card">
+            <h3>Technology Consulting</h3>
+            <p>Expert guidance to help you navigate the complex landscape of technology and innovation.</p>
+        </div>
+        <div class="card">
+            <h3>Data Analytics</h3>
+            <p>Unlock the power of your data with advanced analytics and actionable insights for smarter decision-making.</p>
+        </div>
     </section>
-    
-    <footer>
-        <p>&copy; 2023 Centameta. All rights reserved.</p>
+
+    <footer id="contact">
+        <p>Contact Us: info@centameta.com | Phone: (123) 456-7890</p>
+        <p>&copy; 2025 Centameta. All rights reserved.</p>
     </footer>
 </body>
 </html>
