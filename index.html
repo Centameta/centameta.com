@@ -1,30 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ mobileMenu: false, contactModal: false }">
+<html lang="en" x-data="{ mobileMenu: false, contactModal: false, darkMode: false, loading: true }">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Centameta - Creating innovative mobile apps and games for everyone. Download our apps on iOS and Android.">
+  <meta property="og:title" content="Centameta - Mobile Apps & Games">
+  <meta property="og:description" content="Creating innovative mobile apps and games for everyone.">
+  <meta property="og:type" content="website">
   <link rel="shortcut icon" type="image/x-icon" href="/centa_github.png">
-  <title>Centameta - Innovate Your Future!</title>
+  <title>Centameta - Mobile Apps & Games</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
             accent: {
-              DEFAULT: '#bf4342', // Red accent for logo/buttons
+              DEFAULT: '#bf4342',
               dark: '#b71c1c',
               light: '#ffebee'
             },
             cool: {
-              DEFAULT: '#2d3748', // Slate/Navy for header/nav
-              light: '#f7fafc',   // Light gray for backgrounds
-              mid: '#e2e8f0',     // Mid gray for cards
+              DEFAULT: '#2d3748',
+              light: '#f7fafc',
+              mid: '#e2e8f0',
             },
             text: {
-              DEFAULT: '#22292f', // Dark gray for text
+              DEFAULT: '#22292f',
               light: '#4a5568'
+            },
+            dark: {
+              bg: '#1a202c',
+              card: '#2d3748',
+              text: '#e2e8f0'
+            }
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-out',
+            'slide-up': 'slideUp 0.5s ease-out',
+            'pulse-slow': 'pulse 3s infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
             }
           }
         }
@@ -33,128 +58,334 @@
   </script>
   <!-- Alpine.js CDN -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    [x-cloak] { display: none !important; }
+    
+    .dark .dark-bg { background-color: #1a202c; }
+    .dark .dark-card { background-color: #2d3748; }
+    .dark .dark-text { color: #e2e8f0; }
+    .dark .dark-text-light { color: #a0aec0; }
+    
+    .app-store-badge { transition: transform 0.2s ease, opacity 0.2s ease; }
+    .app-store-badge:hover { transform: translateY(-3px); opacity: 0.9; }
+    
+    .featured-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .featured-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+    
+    .social-link { transition: transform 0.2s ease, color 0.2s ease; }
+    .social-link:hover { transform: translateY(-2px); }
+    
+    .newsletter-btn { transition: background-color 0.2s ease, transform 0.1s ease; }
+    .newsletter-btn:hover { transform: scale(1.02); }
+    
+    .loading-skeleton { animation: shimmer 1.5s infinite; background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; }
+    .dark .loading-skeleton { background: linear-gradient(90deg, #2d3748 25%, #374151 50%, #2d3748 75%); background-size: 200% 100%; }
+    
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    
+    /* Lazy load images */
+    img[loading="lazy"] { opacity: 0; transition: opacity 0.3s ease; }
+    img[loading="lazy"].loaded { opacity: 1; }
+  </style>
 </head>
-<body class="bg-cool-light text-text font-sans">
+<body class="bg-cool-light text-text font-sans" :class="{ 'dark': darkMode }">
+<!-- Dark mode styles -->
+<div class="dark hidden" id="dark-styles">
+  <style>
+    .dark-bg { background-color: #1a202c; }
+    .dark-card { background-color: #2d3748; }
+    .dark-text { color: #e2e8f0; }
+    .dark-text-light { color: #a0aec0; }
+  </style>
+</div>
+
+<!-- Page Loading Overlay -->
+<div x-show="loading" x-transition class="fixed inset-0 bg-white dark:bg-gray-900 z-50 flex items-center justify-center">
+  <div class="loading-skeleton h-32 w-32 rounded-lg"></div>
+</div>
+
+<!-- Preload app store badges -->
+<link rel="preload" as="image" href="https://developer.apple.com/assets/img/badges/download-on-the-app-store-badge.svg">
+<link rel="preload" as="image" href="https://developer.android.com/images/google/play-badge.svg">
 
   <!-- Header -->
-  <header class="bg-cool text-white py-8 px-4 md:px-16 shadow-lg">
-    <div class="flex flex-col items-center">
-      <!-- Logo Image -->
-      <div class="mb-4 flex justify-center">
-        <img src="logo_basic.png" alt="Centameta Logo" class="w-20 h-20 object-contain" />
+  <header class="bg-cool text-white py-4 px-4 md:px-16 shadow-lg dark:bg-gray-800">
+    <nav class="flex flex-wrap items-center justify-between max-w-7xl mx-auto">
+      <div class="flex items-center">
+        <img src="logo_basic.png" alt="Centameta Logo" class="w-12 h-12 object-contain" />
+        <span class="text-xl font-bold ml-2">Centameta</span>
       </div>
-      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-2">Centameta</h1>
-      <p class="text-lg md:text-xl font-medium">Innovate Your Future</p>
+      <div class="hidden md:flex items-center space-x-4">
+        <a href="#about" class="hover:text-accent transition">About</a>
+        <a href="#apps" class="hover:text-accent transition">Our Apps</a>
+        <a href="#featured" class="hover:text-accent transition">Featured</a>
+        <a href="#blog" class="hover:text-accent transition">Blog</a>
+        <a href="#contact" class="hover:text-accent transition">Contact</a>
+        <!-- Dark Mode Toggle -->
+        <button @click="darkMode = !darkMode; document.getElementById('dark-styles').classList.toggle('hidden')" 
+                class="p-2 rounded-full hover:bg-white/10 transition" title="Toggle dark mode">
+          <svg x-show="!darkMode" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+          </svg>
+          <svg x-show="darkMode" x-cloak class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
+      <button @click="mobileMenu = !mobileMenu" class="md:hidden text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path x-show="!mobileMenu" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          <path x-show="mobileMenu" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </nav>
+    <div x-show="mobileMenu" x-transition class="md:hidden bg-cool-light dark:bg-gray-700 text-cool dark:text-white px-4 py-2 space-y-2">
+      <a href="#about" class="block hover:text-accent transition" @click="mobileMenu = false">About</a>
+      <a href="#apps" class="block hover:text-accent transition" @click="mobileMenu = false">Our Apps</a>
+      <a href="#featured" class="block hover:text-accent transition" @click="mobileMenu = false">Featured</a>
+      <a href="#blog" class="block hover:text-accent transition" @click="mobileMenu = false">Blog</a>
+      <a href="#contact" class="block hover:text-accent transition" @click="mobileMenu = false">Contact</a>
+      <button @click="darkMode = !darkMode; document.getElementById('dark-styles').classList.toggle('hidden')" 
+              class="p-2 rounded-full hover:bg-white/10 transition w-full text-left" title="Toggle dark mode">
+        <span x-text="darkMode ? 'Light Mode' : 'Dark Mode'"></span>
+      </button>
     </div>
   </header>
+
+  <!-- Hero with App Store Badges -->
+  <section class="bg-cool text-white py-16 px-4 text-center dark:bg-gray-800">
+    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 animate-fade-in">Centameta</h1>
+    <p class="text-xl md:text-2xl font-medium animate-slide-up" style="animation-delay: 0.1s;">Innovative Mobile Apps & Games</p>
+    <p class="mt-4 text-lg text-cool-light animate-slide-up" style="animation-delay: 0.2s;">Download on iOS and Android</p>
+    
+    <!-- App Store Badges -->
+    <div class="mt-8 flex flex-wrap justify-center gap-4 animate-slide-up" style="animation-delay: 0.3s;">
+      <a href="https://apps.apple.com" target="_blank" rel="noopener" class="app-store-badge" title="Download on the App Store">
+        <img src="https://developer.apple.com/assets/img/badges/download-on-the-app-store-badge.svg" alt="Download on the App Store" class="h-12 md:h-14" loading="lazy" onerror="this.style.display='none'"/>
+      </a>
+      <a href="https://play.google.com" target="_blank" rel="noopener" class="app-store-badge" title="Get it on Google Play">
+        <img src="https://developer.android.com/images/google/play-badge.svg" alt="Get it on Google Play" class="h-12 md:h-14" loading="lazy" onerror="this.style.display='none'"/>
+      </a>
+    </div>
+  </section>
 
 
 
   <!-- About Section -->
   <section id="about" class="max-w-4xl mx-auto py-16 px-4">
-    <h2 class="text-3xl font-bold mb-6 text-cool text-center">About Us</h2>
-    <p class="mb-6 text-center text-lg text-text-light">
-      At Centameta, we specialize in delivering cutting-edge solutions that empower businesses to thrive in a dynamic and competitive landscape. Our diverse range of services includes:
+    <h2 class="text-3xl font-bold mb-6 text-cool dark:text-white text-center">About Us</h2>
+    <p class="mb-6 text-center text-lg text-text-light dark:text-gray-300">
+      Centameta creates innovative mobile apps and games designed to entertain and simplify everyday life. We're passionate about delivering engaging experiences on both iOS and Android platforms.
     </p>
-    <ul class="bg-white rounded-lg shadow p-6 space-y-4">
+    <ul class="bg-white dark:bg-gray-600 rounded-lg shadow p-6 space-y-4">
       <li>
-        <span class="font-semibold text-accent">Custom Software Development:</span>
-        We create bespoke software tailored to your unique business needs, ensuring exceptional functionality and user experience.
+        <span class="font-semibold text-accent">Mobile Games:</span>
+        <span class="dark:text-gray-300">Fun and addictive hyper-casual games that keep you entertained for hours.</span>
       </li>
       <li>
-        <span class="font-semibold text-accent">Embedded Systems:</span>
-        Our expertise in embedded systems ensures reliable and efficient solutions for modern devices and industries.
+        <span class="font-semibold text-accent">Utility Apps:</span>
+        <span class="dark:text-gray-300">Practical apps that help you stay organized, productive, and efficient.</span>
       </li>
       <li>
-        <span class="font-semibold text-accent">Technology Consulting:</span>
-        Navigate the complexities of innovation with our expert guidance and strategic insights.
+        <span class="font-semibold text-accent">AI-Powered Solutions:</span>
+        <span class="dark:text-gray-300">Smart features that learn and adapt to make your life easier.</span>
       </li>
       <li>
-        <span class="font-semibold text-accent">Data Analytics:</span>
-        Leverage your data to gain actionable insights, optimize operations, and drive informed decision-making.
+        <span class="font-semibold text-accent">Cross-Platform:</span>
+        <span class="dark:text-gray-300">Our apps work seamlessly on both iOS and Android devices.</span>
       </li>
     </ul>
-    <p class="mt-6 text-center text-lg text-text-light">
-      With a commitment to innovation, quality, and customer satisfaction, Centameta is your trusted partner in shaping a successful future for your business.
+    <p class="mt-6 text-center text-lg text-text-light dark:text-gray-300">
+      With a focus on innovation, quality, and user satisfaction, Centameta brings delightful mobile experiences to millions of users worldwide.
     </p>
   </section>
 
-  <!-- Services Section -->
-  <section id="services" class="bg-cool-light py-4 px-4">
+  <!-- Apps Section -->
+  <section id="apps" class="bg-cool-light py-16 px-4 dark:bg-gray-700">
     <div class="max-w-7xl mx-auto">
-      <h2 class="text-3xl font-bold mb-10 text-cool text-center">Our Services</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <!-- Service Card 1 -->
-        <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col items-start"
-             x-data="{ open: false }">
-          <h3 class="text-xl font-semibold mb-2 text-accent">Custom Software Development</h3>
-          <p class="mb-4 text-text-light">Building tailored software solutions to meet your business needs and exceed expectations.</p>
-          <button @click="open = !open"
-                  class="text-accent hover:underline font-medium focus:outline-none">
-            Learn More
-          </button>
-          <div x-show="open" x-transition class="mt-2 text-sm text-text-light">
-            <p>
-              Our team leverages the latest technologies to deliver scalable, secure, and user-friendly applications.
-            </p>
+      <h2 class="text-3xl font-bold mb-10 text-cool dark:text-white text-center">Our Apps</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- App Card 1 -->
+        <div class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition p-6">
+          <h3 class="text-xl font-semibold mb-2 text-accent">Hyper-Casual Games</h3>
+          <p class="mb-4 text-text-light dark:text-gray-300">Quick, addictive games perfect for short breaks. Fun for all ages.</p>
+          <span class="inline-block bg-cool-light text-cool text-sm px-3 py-1 rounded dark:bg-gray-500 dark:text-white">iOS & Android</span>
+        </div>
+        <!-- App Card 2 -->
+        <div class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition p-6">
+          <h3 class="text-xl font-semibold mb-2 text-accent">Productivity Apps</h3>
+          <p class="mb-4 text-text-light dark:text-gray-300">Stay organized with our suite of task management and utility apps.</p>
+          <span class="inline-block bg-cool-light text-cool text-sm px-3 py-1 rounded dark:bg-gray-500 dark:text-white">iOS & Android</span>
+        </div>
+        <!-- App Card 3 -->
+        <div class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition p-6">
+          <h3 class="text-xl font-semibold mb-2 text-accent">AI Utilities</h3>
+          <p class="mb-4 text-text-light dark:text-gray-300">Smart AI-powered features that adapt to your usage patterns.</p>
+          <span class="inline-block bg-cool-light text-cool text-sm px-3 py-1 rounded dark:bg-gray-500 dark:text-white">iOS & Android</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Apps Gallery -->
+  <section id="featured" class="py-16 px-4">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-3xl font-bold mb-10 text-cool dark:text-white text-center">Featured Apps</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Featured App 1 -->
+        <div class="featured-card bg-white dark:bg-gray-600 rounded-xl shadow-lg overflow-hidden">
+          <div class="h-48 bg-gradient-to-br from-accent to-accent-dark flex items-center justify-center">
+            <svg class="w-16 h-16 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2 text-accent">GameDash</h3>
+            <p class="mb-4 text-text-light dark:text-gray-300">Your ultimate gaming companion. Track stats, discover new games, and connect with friends.</p>
+            <div class="flex gap-2">
+              <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">iOS</span>
+              <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">Android</span>
+            </div>
           </div>
         </div>
-        <!-- Service Card 2 -->
-        <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col items-start"
-             x-data="{ open: false }">
-          <h3 class="text-xl font-semibold mb-2 text-accent">Embedded Systems</h3>
-          <p class="mb-4 text-text-light">Providing robust and efficient embedded solutions for modern devices and industries.</p>
-          <button @click="open = !open"
-                  class="text-accent hover:underline font-medium focus:outline-none">
-            Learn More
-          </button>
-          <div x-show="open" x-transition class="mt-2 text-sm text-text-light">
-            <p>
-              We design and implement embedded systems that are reliable, efficient, and tailored to your requirements.
-            </p>
+        <!-- Featured App 2 -->
+        <div class="featured-card bg-white dark:bg-gray-600 rounded-xl shadow-lg overflow-hidden">
+          <div class="h-48 bg-gradient-to-br from-cool to-cool-light flex items-center justify-center">
+            <svg class="w-16 h-16 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+            </svg>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2 text-accent">TaskFlow</h3>
+            <p class="mb-4 text-text-light dark:text-gray-300">Minimalist task management with smart deadlines and team collaboration.</p>
+            <div class="flex gap-2">
+              <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">iOS</span>
+              <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">Android</span>
+            </div>
           </div>
         </div>
-        <!-- Service Card 3 -->
-        <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col items-start"
-             x-data="{ open: false }">
-          <h3 class="text-xl font-semibold mb-2 text-accent">Technology Consulting</h3>
-          <p class="mb-4 text-text-light">Expert guidance to help you navigate the complex landscape of technology and innovation.</p>
-          <button @click="open = !open"
-                  class="text-accent hover:underline font-medium focus:outline-none">
-            Learn More
-          </button>
-          <div x-show="open" x-transition class="mt-2 text-sm text-text-light">
-            <p>
-              Our consultants provide strategic insights and actionable plans to drive your business forward.
-            </p>
+        <!-- Featured App 3 -->
+        <div class="featured-card bg-white dark:bg-gray-600 rounded-xl shadow-lg overflow-hidden">
+          <div class="h-48 bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
+            <svg class="w-16 h-16 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
           </div>
-        </div>
-        <!-- Service Card 4 -->
-        <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6 flex flex-col items-start"
-             x-data="{ open: false }">
-          <h3 class="text-xl font-semibold mb-2 text-accent">Data Analytics</h3>
-          <p class="mb-4 text-text-light">Unlock the power of your data with advanced analytics and actionable insights for smarter decision-making.</p>
-          <button @click="open = !open"
-                  class="text-accent hover:underline font-medium focus:outline-none">
-            Learn More
-          </button>
-          <div x-show="open" x-transition class="mt-2 text-sm text-text-light">
-            <p>
-              We help you turn raw data into valuable insights, optimizing operations and driving growth.
-            </p>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2 text-accent">AI Assist</h3>
+            <p class="mb-4 text-text-light dark:text-gray-300">AI-powered virtual assistant to boost your daily productivity and creativity.</p>
+            <div class="flex gap-2">
+              <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">iOS</span>
+              <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">Android</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Social Media Links -->
+  <section class="bg-cool text-white py-12 px-4 dark:bg-gray-800">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-6">Follow Us</h2>
+      <div class="flex justify-center gap-6">
+        <a href="https://twitter.com/centameta" target="_blank" rel="noopener" class="social-link text-white hover:text-accent" title="Twitter">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+        <a href="https://instagram.com/centameta" target="_blank" rel="noopener" class="social-link text-white hover:text-accent" title="Instagram">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+        <a href="https://discord.gg/centameta" target="_blank" rel="noopener" class="social-link text-white hover:text-accent" title="Discord">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5487-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+          </svg>
+        </a>
+        <a href="https://github.com/centameta" target="_blank" rel="noopener" class="social-link text-white hover:text-accent" title="GitHub">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Signup -->
+  <section id="newsletter" class="bg-cool-light dark:bg-gray-700 py-16 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4 text-cool dark:text-white">Stay Updated</h2>
+      <p class="mb-6 text-text-light dark:text-gray-300">Subscribe to our newsletter for the latest app updates, new releases, and exclusive content.</p>
+      <form action="https://formspree.io/f/newsletter" method="POST" class="flex flex-col sm:flex-row gap-3 justify-center">
+        <input type="email" name="email" placeholder="Enter your email" class="flex-1 max-w-sm px-4 py-3 rounded border border-cool-mid dark:bg-gray-600 dark:text-white dark:border-gray-500 focus:outline-none focus:ring-2 focus:ring-accent" required/>
+        <button type="submit" class="newsletter-btn bg-accent text-white px-6 py-3 rounded font-semibold hover:bg-accent-dark">Subscribe</button>
+      </form>
+      <p class="mt-3 text-sm text-text-light dark:text-gray-400">We respect your privacy. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <!-- Blog/News Section -->
+  <section id="blog" class="max-w-7xl mx-auto py-16 px-4">
+    <h2 class="text-3xl font-bold mb-10 text-cool dark:text-white text-center">Latest News</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Blog Post 1 -->
+      <article class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+        <div class="h-40 bg-gradient-to-r from-accent to-purple-500 flex items-center justify-center">
+          <svg class="w-12 h-12 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+        </div>
+        <div class="p-6">
+          <span class="text-xs text-accent font-semibold">April 2026</span>
+          <h3 class="text-lg font-semibold mt-2 dark:text-white">GameDash 2.0 Released</h3>
+          <p class="mt-2 text-text-light dark:text-gray-300 text-sm">Major update brings new social features, improved performance, and exclusive new games.</p>
+          <a href="#" class="inline-block mt-3 text-accent hover:underline text-sm font-medium">Read more →</a>
+        </div>
+      </article>
+      <!-- Blog Post 2 -->
+      <article class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+        <div class="h-40 bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
+          <svg class="w-12 h-12 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div class="p-6">
+          <span class="text-xs text-accent font-semibold">March 2026</span>
+          <h3 class="text-lg font-semibold mt-2 dark:text-white">1 Million Downloads!</h3>
+          <p class="mt-2 text-text-light dark:text-gray-300 text-sm">We're thrilled to announce our apps have been downloaded over 1 million times worldwide.</p>
+          <a href="#" class="inline-block mt-3 text-accent hover:underline text-sm font-medium">Read more →</a>
+        </div>
+      </article>
+      <!-- Blog Post 3 -->
+      <article class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+        <div class="h-40 bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center">
+          <svg class="w-12 h-12 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+        </div>
+        <div class="p-6">
+          <span class="text-xs text-accent font-semibold">February 2026</span>
+          <h3 class="text-lg font-semibold mt-2 dark:text-white">AI Assist Beta Launch</h3>
+          <p class="mt-2 text-text-light dark:text-gray-300 text-sm">Introducing our new AI-powered assistant. Join the beta program today!</p>
+          <a href="#" class="inline-block mt-3 text-accent hover:underline text-sm font-medium">Read more →</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <!-- Contact Section & Modal -->
   <section id="contact" class="max-w-4xl mx-auto py-16 px-4 text-center">
-    <h2 class="text-3xl font-bold mb-6 text-cool">Contact Us</h2>
-    <p class="mb-6 text-lg text-text-light">We'd love to hear from you! Reach out for a consultation or more information.</p>
+    <h2 class="text-3xl font-bold mb-6 text-cool dark:text-white">Contact Us</h2>
+    <p class="mb-6 text-lg text-text-light dark:text-gray-300">We'd love to hear from you! Reach out for feedback, partnerships, or just to say hello.</p>
     <div class="mb-4">
       <span class="inline-block mr-4"><strong>Email:</strong> <a href="mailto:info@centameta.com" class="text-accent hover:underline">info@centameta.com</a></span>
-      <span class="inline-block"><strong>Phone:</strong> <a href="tel:1234567890" class="text-accent hover:underline">(123) 456-7890</a></span>
+      <span class="inline-block"><strong>Phone:</strong> <a href="tel:+14154759666" class="text-accent hover:underline">+1 415 475 9666</a></span>
     </div>
     <button @click="contactModal = true"
             class="bg-accent text-white px-6 py-2 rounded shadow hover:bg-accent-dark transition font-semibold focus:outline-none">
@@ -162,13 +393,13 @@
     </button>
     <!-- Modal -->
     <div x-show="contactModal" x-transition class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md relative">
+      <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-8 w-full max-w-md relative">
         <button @click="contactModal = false" class="absolute top-2 right-2 text-gray-400 hover:text-accent text-2xl font-bold">&times;</button>
-        <h3 class="text-xl font-bold mb-4 text-cool">Contact Form</h3>
-        <form class="space-y-4">
-          <input type="text" placeholder="Your Name" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-accent"/>
-          <input type="email" placeholder="Your Email" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-accent"/>
-          <textarea placeholder="Your Message" rows="4" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-accent"></textarea>
+        <h3 class="text-xl font-bold mb-4 text-cool dark:text-white">Contact Form</h3>
+        <form action="https://formspree.io/f/centameta" method="POST" class="space-y-4">
+          <input type="text" name="name" placeholder="Your Name" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-accent dark:bg-gray-600 dark:text-white" required/>
+          <input type="email" name="email" placeholder="Your Email" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-accent dark:bg-gray-600 dark:text-white" required/>
+          <textarea name="message" placeholder="Your Message" rows="4" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-accent dark:bg-gray-600 dark:text-white" required></textarea>
           <button type="submit" class="bg-accent text-white px-4 py-2 rounded hover:bg-accent-dark transition font-semibold w-full">Send</button>
         </form>
       </div>
@@ -176,9 +407,61 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-cool text-white py-6 px-4 text-center">
-    <p class="text-sm">&copy; 2025 Centameta. All rights reserved.</p>
+  <footer class="bg-cool text-white py-6 px-4 text-center dark:bg-gray-800">
+    <p class="text-sm">&copy; 2026 Centameta. All rights reserved.</p>
+    <div class="mt-2 text-sm text-cool-light">
+      <a href="#" class="hover:text-accent mr-3">Privacy Policy</a>
+      <a href="#" class="hover:text-accent mr-3">Terms of Service</a>
+      <a href="#" class="hover:text-accent">Press Kit</a>
+    </div>
   </footer>
 
+  <!-- Lazy load images and animations on DOMContentLoaded -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Hide loading overlay
+      setTimeout(function() {
+        var loadingEl = document.querySelector('[x-show="loading"]');
+        if (loadingEl) {
+          loadingEl.style.display = 'none';
+        }
+        document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
+          img.classList.add('loaded');
+        });
+      }, 300);
+      
+      // Add intersection observer for fade-in animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      
+      document.querySelectorAll('.featured-card, article').forEach(function(el) {
+        el.style.transition = 'opacity 0.5s ease';
+        el.style.opacity = '0';
+        observer.observe(el);
+      });
+      
+      // Re-initialize Alpine.js dark mode on page load
+      if (window.Alpine) {
+        Alpine.init();
+      }
+    });
+    window.addEventListener('load', function() {
+      if (window.Alpine) {
+        var data = Alpine.$data(document.documentElement);
+        if (data) data.loading = false;
+      }
+    });
+  </script>
 </body>
 </html>
