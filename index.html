@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Centameta architects intelligent software, embedded, and analytics systems." />
-  <meta property="og:title" content="Centameta | Architecting Intelligent Systems" />
+  <meta name="description" content="Centameta building intelligent software, embedded, and analytics systems." />
+  <meta property="og:title" content="Centameta | Building Intelligent Systems" />
   <meta property="og:description" content="Premium technology services across software, embedded systems, and analytics." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://centameta.com" />
   <link rel="canonical" href="https://centameta.com" />
-  <title>Centameta | Architecting Intelligent Systems</title>
+  <title>Centameta | Building Intelligent Systems</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -149,13 +149,50 @@
     }
 
     .wrap {
+      position: relative;
       max-width: var(--max);
       margin: 0 auto;
       padding: 0 28px;
     }
 
+    .breakout-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.72;
+    }
+
+    .breakout-bar {
+      position: absolute;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(191, 67, 66, 0.25), rgba(191, 67, 66, 0.95), rgba(191, 67, 66, 0.25));
+      box-shadow: 0 0 10px rgba(191, 67, 66, 0.42);
+    }
+
+    .breakout-bar.top {
+      width: 240px;
+    }
+
+    .breakout-bar.bottom {
+      width: 140px;
+    }
+
+    .breakout-ball {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffd9d8 0%, #ff7f7c 34%, #bf4342 72%, #8f2f2f 100%);
+      box-shadow: 0 0 14px rgba(191, 67, 66, 0.52), 0 0 2px rgba(255, 255, 255, 0.45) inset;
+      transform: translate(-50%, -50%);
+    }
+
     .topbar {
       position: relative;
+      z-index: 2;
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: center;
@@ -163,15 +200,9 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .topbar::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -1px;
-      width: 132px;
-      height: 1px;
-      background: var(--accent-red);
-      opacity: 0.9;
+    main {
+      position: relative;
+      z-index: 2;
     }
 
     .brand {
@@ -331,17 +362,6 @@
       margin: 16px 0 0;
     }
 
-    .hero-divider::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: -1px;
-      width: 94px;
-      height: 1px;
-      background: var(--accent-red);
-      opacity: 0.8;
-    }
-
     .section {
       padding: 66px 0;
     }
@@ -453,25 +473,37 @@
     .project:nth-child(6) { grid-column: 5 / span 4; transform: translateY(34px); }
 
     .footer {
+      position: relative;
+      z-index: 2;
       border-top: 1px solid var(--line);
       padding: 28px 0 40px;
       color: #a9afb5;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 0.73rem;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      font-size: 0.82rem;
     }
 
     .footer-grid {
       display: grid;
       grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 20px;
+      gap: 18px;
       align-items: start;
+    }
+
+    .footer-block {
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 14px;
+      padding: 14px 14px 13px;
+      min-height: 156px;
     }
 
     .footer-title {
       color: #d2d8de;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
     }
 
     .footer-copy {
@@ -487,6 +519,74 @@
       list-style: none;
       display: grid;
       gap: 8px;
+      padding-left: 0;
+    }
+
+    .contact-list {
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+
+    .contact-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .contact-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 54px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: 0.62rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: #d3dae3;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .contact-label.email {
+      border-color: rgba(140, 181, 235, 0.45);
+      color: #c7ddf6;
+    }
+
+    .contact-label.phone {
+      border-color: rgba(135, 198, 157, 0.45);
+      color: #caebd8;
+    }
+
+    .contact-label.base {
+      border-color: rgba(218, 191, 144, 0.45);
+      color: #eadaba;
+    }
+
+    .contact-value,
+    .contact-value a {
+      color: #c6cfda;
+      text-decoration: none;
+      font-size: 0.84rem;
+      letter-spacing: 0.02em;
+    }
+
+    .contact-value a:hover {
+      color: #f0dfbe;
+    }
+
+    .channels-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .channels-columns .footer-links a {
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
     }
 
     .footer-links a {
@@ -511,6 +611,7 @@
       color: #8e98a4;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     @keyframes rise {
@@ -536,6 +637,18 @@
     @media (max-width: 980px) {
       .mesh-bg {
         opacity: 0.3;
+      }
+
+      .breakout-overlay {
+        opacity: 0.52;
+      }
+
+      .breakout-bar.top {
+        width: 210px;
+      }
+
+      .breakout-bar.bottom {
+        width: 124px;
       }
 
       .hero {
@@ -587,8 +700,19 @@
         grid-template-columns: 1fr;
       }
 
+      .channels-columns {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
       .footer-meta {
         margin-top: 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .breakout-overlay {
+        display: none;
       }
     }
   </style>
@@ -657,6 +781,12 @@
   </svg>
 
   <div class="wrap">
+    <div class="breakout-overlay" aria-hidden="true">
+      <div class="breakout-bar top" id="topBar"></div>
+      <div class="breakout-bar bottom" id="bottomBar"></div>
+      <div class="breakout-ball" id="dataPointBall"></div>
+    </div>
+
     <header class="topbar">
       <div class="brand">
         <img src="logo_basic.png" alt="Centameta logo" class="brand-mark" />
@@ -726,35 +856,228 @@
 
     <footer class="footer" id="contact">
       <div class="footer-grid">
-        <div>
+        <div class="footer-block">
           <div class="footer-title">Centameta</div>
           <p class="footer-copy">Engineering depth for intelligent products across software, embedded systems, and analytics.</p>
         </div>
 
-        <div>
+        <div class="footer-block">
           <div class="footer-title">Contact</div>
-          <ul class="footer-links">
-            <li><a href="mailto:info@centameta.com">info@centameta.com</a></li>
-            <li><a href="tel:+14154759666">+1 415 475 9666</a></li>
-            <li><span>San Francisco, California</span></li>
-            <!-- <li><a href="https://github.com/centameta" target="_blank" rel="noopener">GitHub /centameta</a></li> -->
+          <ul class="contact-list">
+            <li class="contact-row">
+              <span class="contact-label email">Email</span>
+              <span class="contact-value"><a href="mailto:info@centameta.com">info@centameta.com</a></span>
+            </li>
+            <li class="contact-row">
+              <span class="contact-label phone">Phone</span>
+              <span class="contact-value"><a href="tel:+14154759666">+1 415 475 9666</a></span>
+            </li>
+            <li class="contact-row">
+              <span class="contact-label base">Based in</span>
+              <span class="contact-value">San Francisco, California</span>
+            </li>
           </ul>
         </div>
 
-        <div>
+        <div class="footer-block">
           <div class="footer-title">Channels</div>
-          <ul class="footer-links">
-            <li><a href="https://twitter.com/centameta" target="_blank" rel="noopener">X / Twitter</a></li>
-            <li><a href="https://youtube.com/@centameta" target="_blank" rel="noopener">YouTube</a></li>
-            <!-- <li><a href="https://instagram.com/centameta" target="_blank" rel="noopener">Instagram</a></li> -->
-            <li><a href="https://linkedin.com/company/centameta" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a href="https://discord.gg/centameta" target="_blank" rel="noopener">Discord</a></li>
-          </ul>
+          <div class="channels-columns">
+            <div>
+              <ul class="footer-links">
+                <li><a href="https://twitter.com/centameta" target="_blank" rel="noopener">X / Twitter</a></li>
+                <li><a href="https://instagram.com/centameta" target="_blank" rel="noopener">Instagram</a></li>
+                <li><a href="https://youtube.com/@centameta" target="_blank" rel="noopener">YouTube</a></li>
+                <li><a href="https://tiktok.com/@centameta" target="_blank" rel="noopener">TikTok</a></li>
+              </ul>
+            </div>
+            <div>
+              <ul class="footer-links">
+                <li><a href="https://linkedin.com/company/centameta" target="_blank" rel="noopener">LinkedIn</a></li>
+                <li><a href="https://github.com/centameta" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="https://huggingface.co/centameta" target="_blank" rel="noopener">Hugging Face</a></li>
+                <li><a href="https://discord.gg/centameta" target="_blank" rel="noopener">Discord</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="footer-meta">Centameta • Engineering Depth for Intelligent Products</div>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      var wrap = document.querySelector('.wrap');
+      var overlay = document.querySelector('.breakout-overlay');
+      var topBar = document.getElementById('topBar');
+      var bottomBar = document.getElementById('bottomBar');
+      var ball = document.getElementById('dataPointBall');
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      if (!wrap || !overlay || !topBar || !bottomBar || !ball || reduceMotion.matches) {
+        return;
+      }
+
+      var state = {
+        w: 0,
+        h: 0,
+        r: 4.5,
+        barH: 2,
+        topY: 78,
+        bottomY: 0,
+        topW: 240,
+        bottomW: 140,
+        topX: 0,
+        bottomX: 0,
+        x: 0,
+        y: 0,
+        vx: 120,
+        vy: 250,
+        barSpeed: 230,
+        lastTime: 0,
+        rafId: 0
+      };
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function refreshBounds() {
+        var rect = wrap.getBoundingClientRect();
+        state.w = rect.width;
+        state.h = wrap.offsetHeight;
+
+        state.topW = topBar.offsetWidth || 240;
+        state.bottomW = bottomBar.offsetWidth || 140;
+        state.topY = window.innerWidth < 980 ? 64 : 78;
+        state.bottomY = Math.max(state.topY + 150, state.h - (window.innerWidth < 980 ? 98 : 124));
+
+        if (!state.x || !state.y) {
+          state.x = state.w * 0.52;
+          state.y = state.topY + 26;
+        }
+
+        if (!state.topX && !state.bottomX) {
+          state.topX = (state.w - state.topW) * 0.5;
+          state.bottomX = (state.w - state.bottomW) * 0.45;
+        }
+
+        state.topX = clamp(state.topX, 0, state.w - state.topW);
+        state.bottomX = clamp(state.bottomX, 0, state.w - state.bottomW);
+        state.x = clamp(state.x, state.r, state.w - state.r);
+        state.y = clamp(state.y, state.topY + state.r + state.barH, state.bottomY - state.r);
+      }
+
+      function setVisuals() {
+        topBar.style.left = state.topX + 'px';
+        topBar.style.top = state.topY + 'px';
+        bottomBar.style.left = state.bottomX + 'px';
+        bottomBar.style.top = state.bottomY + 'px';
+        ball.style.left = state.x + 'px';
+        ball.style.top = state.y + 'px';
+      }
+
+      function moveBar(barX, barW, targetX, dt) {
+        var center = barX + barW * 0.5;
+        var delta = targetX - center;
+        var maxStep = state.barSpeed * dt;
+        barX += Math.sign(delta) * Math.min(Math.abs(delta), maxStep);
+        return clamp(barX, 0, state.w - barW);
+      }
+
+      function bounceFromBar(barX, barW, goingDown) {
+        var center = barX + barW * 0.5;
+        var hitOffset = (state.x - center) / (barW * 0.5);
+        hitOffset = clamp(hitOffset, -1, 1);
+        state.vx += hitOffset * 95;
+        state.vx = clamp(state.vx, -220, 220);
+        state.vy = goingDown ? -Math.abs(state.vy) : Math.abs(state.vy);
+      }
+
+      function resetAfterMiss(fromBottom) {
+        state.x = fromBottom ? state.bottomX + state.bottomW * 0.5 : state.topX + state.topW * 0.5;
+        state.y = fromBottom ? state.bottomY - state.r - 2 : state.topY + state.r + state.barH + 2;
+        state.vy = fromBottom ? -Math.abs(state.vy) : Math.abs(state.vy);
+      }
+
+      function tick(ts) {
+        if (document.hidden) {
+          state.lastTime = ts;
+          state.rafId = requestAnimationFrame(tick);
+          return;
+        }
+
+        if (!state.lastTime) {
+          state.lastTime = ts;
+        }
+
+        var dt = Math.min((ts - state.lastTime) / 1000, 0.04);
+        state.lastTime = ts;
+
+        if (state.vy > 0) {
+          state.bottomX = moveBar(state.bottomX, state.bottomW, state.x, dt);
+          state.topX = moveBar(state.topX, state.topW, state.w * 0.5, dt * 0.4);
+        } else {
+          state.topX = moveBar(state.topX, state.topW, state.x, dt);
+          state.bottomX = moveBar(state.bottomX, state.bottomW, state.w * 0.5, dt * 0.4);
+        }
+
+        state.x += state.vx * dt;
+        state.y += state.vy * dt;
+
+        if (state.x <= state.r) {
+          state.x = state.r;
+          state.vx = Math.abs(state.vx);
+        } else if (state.x >= state.w - state.r) {
+          state.x = state.w - state.r;
+          state.vx = -Math.abs(state.vx);
+        }
+
+        if (state.vy < 0 && state.y - state.r <= state.topY + state.barH) {
+          if (state.x >= state.topX && state.x <= state.topX + state.topW) {
+            state.y = state.topY + state.barH + state.r;
+            bounceFromBar(state.topX, state.topW, false);
+          } else {
+            resetAfterMiss(false);
+          }
+        }
+
+        if (state.vy > 0 && state.y + state.r >= state.bottomY) {
+          if (state.x >= state.bottomX && state.x <= state.bottomX + state.bottomW) {
+            state.y = state.bottomY - state.r;
+            bounceFromBar(state.bottomX, state.bottomW, true);
+          } else {
+            resetAfterMiss(true);
+          }
+        }
+
+        setVisuals();
+        state.rafId = requestAnimationFrame(tick);
+      }
+
+      function start() {
+        refreshBounds();
+        setVisuals();
+        cancelAnimationFrame(state.rafId);
+        state.lastTime = 0;
+        state.rafId = requestAnimationFrame(tick);
+      }
+
+      window.addEventListener('resize', refreshBounds, { passive: true });
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) {
+          state.lastTime = 0;
+        }
+      });
+
+      if (window.ResizeObserver) {
+        var ro = new ResizeObserver(refreshBounds);
+        ro.observe(wrap);
+      }
+
+      start();
+    })();
+  </script>
 </body>
 </html>
