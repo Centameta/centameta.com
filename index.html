@@ -1,531 +1,756 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Centameta - Creating innovative mobile apps and games for everyone. Download our apps on iOS and Android.">
-  <meta property="og:title" content="Centameta - Mobile Apps & Games">
-  <meta property="og:description" content="Creating innovative mobile apps and games for everyone.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://centameta.com">
-  <meta property="og:image" content="https://centameta.com/centa_github.png">
-  <link rel="canonical" href="https://centameta.com">
-  <link rel="shortcut icon" type="image/x-icon" href="/centa_github.png">
-  <title>Centameta - Mobile Apps & Games</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            accent: {
-              DEFAULT: '#bf4342',
-              dark: '#b71c1c',
-              light: '#ffebee'
-            },
-            cool: {
-              DEFAULT: '#2d3748',
-              light: '#f7fafc',
-              mid: '#e2e8f0',
-            },
-            text: {
-              DEFAULT: '#22292f',
-              light: '#4a5568'
-            },
-            dark: {
-              bg: '#1a202c',
-              card: '#2d3748',
-              text: '#e2e8f0'
-            }
-          },
-          animation: {
-            'fade-in': 'fadeIn 0.5s ease-out',
-            'slide-up': 'slideUp 0.5s ease-out',
-            'pulse-slow': 'pulse 3s infinite',
-          },
-          keyframes: {
-            fadeIn: {
-              '0%': { opacity: '0' },
-              '100%': { opacity: '1' },
-            },
-            slideUp: {
-              '0%': { transform: 'translateY(20px)', opacity: '0' },
-              '100%': { transform: 'translateY(0)', opacity: '1' },
-            }
-          }
-        }
-      }
-    }
-  </script>
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <script>
-    (function() {
-      var saved = localStorage.getItem('centameta-dark-mode');
-      if (saved === 'true' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      }
-    })();
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Centameta architects intelligent software, embedded, and analytics systems." />
+  <meta property="og:title" content="Centameta | Architecting Intelligent Systems" />
+  <meta property="og:description" content="Premium technology services across software, embedded systems, and analytics." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://centameta.com" />
+  <link rel="canonical" href="https://centameta.com" />
+  <title>Centameta | Architecting Intelligent Systems</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+
   <style>
-    [x-cloak] { display: none !important; }
-    html { scroll-behavior: smooth; }
-    .app-store-badge { transition: transform 0.2s ease, opacity 0.2s ease; }
-    .app-store-badge:hover { transform: translateY(-3px); opacity: 0.9; }
-    .featured-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .featured-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
-    .social-link { transition: transform 0.2s ease, color 0.2s ease; }
-    .social-link:hover { transform: translateY(-2px); }
-    .newsletter-btn { transition: background-color 0.2s ease, transform 0.1s ease; }
-    .newsletter-btn:hover { transform: scale(1.02); }
-    .loading-skeleton { animation: shimmer 1.5s infinite; background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; }
-    .dark .loading-skeleton { background: linear-gradient(90deg, #2d3748 25%, #374151 50%, #2d3748 75%); background-size: 200% 100%; }
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+    :root {
+      --bg: #050506;
+      --ink: #f4f4f5;
+      --silver: #c7ccd4;
+      --gold: #bda06a;
+      --champagne: #e5d1a6;
+      --accent-red: #bf4342;
+      --muted: #8f96a2;
+      --steel: #8ea3be;
+      --line: rgba(255, 255, 255, 0.12);
+      --glass: rgba(255, 255, 255, 0.06);
+      --glass-strong: rgba(255, 255, 255, 0.1);
+      --max: 1160px;
     }
-    img[loading="lazy"] { opacity: 0; transition: opacity 0.3s ease; }
-    img[loading="lazy"].loaded { opacity: 1; }
-    .skip-link {
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      position: relative;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 84% 12%, rgba(188, 160, 106, 0.2), transparent 34%),
+        radial-gradient(circle at 18% 14%, rgba(141, 170, 203, 0.22), transparent 32%),
+        radial-gradient(circle at 79% 33%, rgba(224, 232, 243, 0.09), transparent 38%),
+        linear-gradient(180deg, #060709 0%, #030304 100%);
+      color: var(--ink);
+      font-family: "Sora", sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 70px 70px;
+      opacity: 0.25;
+      z-index: -2;
+    }
+
+    .mesh-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.48;
+      transform: scale(0.7);
+      transform-origin: 50% 50%;
+      filter: drop-shadow(0 0 10px rgba(229, 209, 166, 0.12));
+    }
+
+    .mesh-bg .mesh-lines {
+      stroke: rgba(229, 209, 166, 0.38);
+      stroke-width: 1.15;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .mesh-bg .mesh-lines.secondary {
+      stroke: rgba(189, 160, 106, 0.24);
+      stroke-width: 1;
+    }
+
+    .mesh-bg .node {
+      fill: rgba(229, 209, 166, 0.82);
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: scale(1.32);
+    }
+
+    .mesh-bg .node.red {
+      fill: rgba(191, 67, 66, 0.92);
+      transform: scale(1.42);
+      animation: blink-red 3.2s infinite;
+      animation-delay: -0.9s;
+    }
+
+    .mesh-bg .node.green {
+      fill: rgba(86, 186, 130, 0.9);
+      transform: scale(1.42);
+      animation: blink-green 2.8s infinite;
+      animation-delay: -1.4s;
+    }
+
+    .mesh-bg .node.blue {
+      fill: rgba(88, 152, 236, 0.9);
+      transform: scale(1.42);
+      animation: blink-blue 3.6s infinite;
+      animation-delay: -0.5s;
+    }
+
+    .mesh-bg .halo {
+      fill: rgba(229, 209, 166, 0.12);
+    }
+
+    .mesh-bg .halo.red {
+      fill: rgba(191, 67, 66, 0.16);
+    }
+
+    .mesh-bg .halo.green {
+      fill: rgba(86, 186, 130, 0.16);
+    }
+
+    .mesh-bg .halo.blue {
+      fill: rgba(88, 152, 236, 0.18);
+    }
+
+    @keyframes blink-red {
+      0%, 12%, 18%, 47%, 61%, 100% { opacity: 0.98; }
+      14%, 16%, 49%, 50%, 63% { opacity: 0.3; }
+    }
+
+    @keyframes blink-green {
+      0%, 9%, 27%, 39%, 72%, 100% { opacity: 0.96; }
+      11%, 13%, 29%, 42%, 74% { opacity: 0.26; }
+    }
+
+    @keyframes blink-blue {
+      0%, 22%, 34%, 58%, 86%, 100% { opacity: 0.97; }
+      24%, 26%, 36%, 60%, 88% { opacity: 0.28; }
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    .topbar {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar::after {
+      content: "";
       position: absolute;
-      top: -40px;
       left: 0;
-      background: #bf4342;
-      color: #fff;
-      padding: 8px 16px;
-      z-index: 100;
-      transition: top 0.2s;
+      bottom: -1px;
+      width: 132px;
+      height: 1px;
+      background: var(--accent-red);
+      opacity: 0.9;
     }
-    .skip-link:focus {
-      top: 0;
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 14px rgba(223, 198, 145, 0.24));
+    }
+
+    .brand-text {
+      font-family: "Syncopate", sans-serif;
+      letter-spacing: 0.12em;
+      font-size: 0.92rem;
+      color: #f8f8f8;
+      text-transform: uppercase;
+    }
+
+    .brand-accent {
+      color: var(--accent-red);
+    }
+
+    .nav {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      position: relative;
+      text-decoration: none;
+      color: var(--silver);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 220ms ease;
+    }
+
+    .nav a::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--accent-red);
+      transform: translateY(-50%);
+      opacity: 0.55;
+    }
+
+    .nav a:hover {
+      color: var(--champagne);
+    }
+
+    .hero {
+      min-height: 77vh;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 36px;
+      align-items: center;
+      padding: 56px 0 34px;
+    }
+
+    .headline {
+      font-family: "Syncopate", sans-serif;
+      text-transform: uppercase;
+      font-size: clamp(1.9rem, 4.8vw, 4.5rem);
+      letter-spacing: 0.08em;
+      line-height: 1.06;
+      max-width: 14ch;
+      text-wrap: balance;
+      animation: rise 900ms ease forwards;
+      opacity: 0;
+      transform: translateY(22px);
+      background: linear-gradient(120deg, #eef2f7 20%, #d2b88a 54%, #f6f2e8 76%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .sub {
+      margin-top: 22px;
+      color: #b4bdc8;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+      animation: rise 900ms ease 180ms forwards;
+      opacity: 0;
+      transform: translateY(22px);
+    }
+
+    .hero-note {
+      margin-top: 22px;
+      max-width: 48ch;
+      color: #c8d0dc;
+      font-size: 0.97rem;
+      animation: rise 900ms ease 300ms forwards;
+      opacity: 0;
+      transform: translateY(22px);
+    }
+
+    .monolith {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      max-width: 460px;
+      margin-left: auto;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 30% 14%, rgba(214, 185, 132, 0.22), transparent 28%),
+        radial-gradient(circle at 74% 20%, rgba(255, 255, 255, 0.3), transparent 29%),
+        radial-gradient(circle at 17% 80%, rgba(131, 163, 200, 0.23), transparent 44%),
+        linear-gradient(140deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 44%, rgba(108, 136, 170, 0.09) 100%);
+      box-shadow: 0 30px 72px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      isolation: isolate;
+      animation: drift 9s ease-in-out infinite;
+    }
+
+    .monolith::before,
+    .monolith::after {
+      content: "";
+      position: absolute;
+      inset: 12%;
+      border-radius: 20px;
+      transform-origin: center;
+    }
+
+    .monolith::before {
+      clip-path: polygon(12% 17%, 56% 7%, 84% 35%, 71% 81%, 35% 93%, 10% 67%);
+      background:
+        linear-gradient(156deg, rgba(245, 241, 228, 0.86) 0%, rgba(149, 174, 203, 0.58) 44%, rgba(189, 160, 106, 0.52) 66%, rgba(45, 56, 71, 0.8) 100%);
+      filter: drop-shadow(0 16px 26px rgba(38, 53, 73, 0.5));
+      animation: spin 14s linear infinite;
+      opacity: 0.92;
+    }
+
+    .monolith::after {
+      inset: 23%;
+      clip-path: polygon(16% 12%, 89% 17%, 74% 89%, 12% 80%);
+      border: 1px solid rgba(230, 236, 245, 0.6);
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.26), rgba(150, 173, 198, 0.07));
+      backdrop-filter: blur(2px);
+      animation: spin-rev 16s linear infinite;
+    }
+
+    .hero-divider {
+      border-top: 1px solid var(--line);
+      position: relative;
+      margin: 16px 0 0;
+    }
+
+    .hero-divider::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: -1px;
+      width: 94px;
+      height: 1px;
+      background: var(--accent-red);
+      opacity: 0.8;
+    }
+
+    .section {
+      padding: 66px 0;
+    }
+
+    .section h2 {
+      position: relative;
+      padding-left: 14px;
+      font-family: "Syncopate", sans-serif;
+      font-size: clamp(1.18rem, 2.8vw, 2rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .section h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.2em;
+      width: 2px;
+      height: 0.95em;
+      background: var(--accent-red);
+      border-radius: 2px;
+    }
+
+    .section p.lead {
+      max-width: 64ch;
+      color: #c6cfda;
+      margin-bottom: 34px;
+      font-size: 0.97rem;
+    }
+
+    .roadmap {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+
+    .roadmap::before {
+      content: "";
+      position: absolute;
+      inset: 10% 8%;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 24px;
+      pointer-events: none;
+      mask: radial-gradient(circle at 70% 35%, black 35%, transparent 75%);
+    }
+
+    .project {
+      background: linear-gradient(170deg, var(--glass-strong), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 18px;
+      padding: 16px 16px 14px;
+      min-height: 122px;
+      backdrop-filter: blur(7px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+      animation: rise 760ms ease both;
+    }
+
+    .project:hover {
+      transform: translateY(-5px);
+      border-color: rgba(210, 186, 133, 0.75);
+      box-shadow: 0 18px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    .project h3 {
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 11px;
+      color: #f3f7ff;
+    }
+
+    .tag {
+      position: relative;
+      display: inline-block;
+      padding: 4px 10px 4px 17px;
+      border-radius: 999px;
+      border: 1px solid rgba(229, 209, 166, 0.65);
+      color: #e7d9b9;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .tag::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent-red);
+      transform: translateY(-50%);
+    }
+
+    .project:nth-child(1) { grid-column: 1 / span 4; transform: translateY(8px); }
+    .project:nth-child(2) { grid-column: 6 / span 4; transform: translateY(-14px); }
+    .project:nth-child(3) { grid-column: 10 / span 3; transform: translateY(26px); }
+    .project:nth-child(4) { grid-column: 3 / span 4; transform: translateY(24px); }
+    .project:nth-child(5) { grid-column: 8 / span 4; transform: translateY(-3px); }
+    .project:nth-child(6) { grid-column: 5 / span 4; transform: translateY(34px); }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 40px;
+      color: #a9afb5;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.73rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .footer-title {
+      color: #d2d8de;
+      margin-bottom: 8px;
+      letter-spacing: 0.12em;
+    }
+
+    .footer-copy {
+      color: #9ea7b2;
+      line-height: 1.65;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-size: 0.86rem;
+      max-width: 36ch;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .footer-links a {
+      color: #c7ced8;
+      text-decoration: none;
+      text-transform: none;
+      letter-spacing: 0.03em;
+      font-size: 0.85rem;
+      border-bottom: 1px solid transparent;
+      transition: color 200ms ease, border-color 200ms ease;
+    }
+
+    .footer-links a:hover {
+      color: #f0dfbe;
+      border-color: rgba(191, 67, 66, 0.8);
+    }
+
+    .footer-meta {
+      margin-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 14px;
+      color: #8e98a4;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    @keyframes rise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg) scale(1.02); }
+    }
+
+    @keyframes spin-rev {
+      to { transform: rotate(-360deg) scale(0.98); }
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @media (max-width: 980px) {
+      .mesh-bg {
+        opacity: 0.3;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding-top: 44px;
+      }
+
+      .monolith {
+        margin: 16px auto 0;
+        width: min(100%, 450px);
+      }
+
+      .project,
+      .project:nth-child(n) {
+        grid-column: span 6;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        padding: 0 18px;
+      }
+
+      .topbar {
+        gap: 20px;
+      }
+
+      .nav {
+        justify-content: flex-start;
+        gap: 14px;
+      }
+
+      .nav a {
+        font-size: 0.72rem;
+      }
+
+      .project,
+      .project:nth-child(n) {
+        grid-column: 1 / -1;
+      }
+
+      .section {
+        padding: 54px 0;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-meta {
+        margin-top: 16px;
+      }
     }
   </style>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Centameta",
-    "url": "https://centameta.com",
-    "logo": "https://centameta.com/centa_github.png",
-    "description": "Creating innovative mobile apps and games for everyone.",
-    "sameAs": [
-      "https://twitter.com/centameta",
-      "https://instagram.com/centameta",
-      "https://discord.gg/centameta",
-      "https://github.com/centameta"
-    ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "email": "info@centameta.com",
-      "telephone": "+1-415-475-9666",
-      "contactType": "customer service"
-    }
-  }
-  </script>
 </head>
-<body
-  x-data="{
-    mobileMenu: false,
-    contactModal: false,
-    darkMode: document.documentElement.classList.contains('dark'),
-    loading: true,
-    toggleDark() {
-      this.darkMode = !this.darkMode;
-      document.documentElement.classList.toggle('dark', this.darkMode);
-      localStorage.setItem('centameta-dark-mode', this.darkMode);
-    },
-    initDark() {
-      var saved = localStorage.getItem('centameta-dark-mode');
-      this.darkMode = saved === 'true' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      document.documentElement.classList.toggle('dark', this.darkMode);
-    }
-  }"
-  x-init="initDark()"
-  class="bg-cool-light text-text font-sans"
-  :class="{ 'dark': darkMode }"
->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+<body>
+  <svg class="mesh-bg" viewBox="0 0 1600 1000" preserveAspectRatio="none" aria-hidden="true">
+    <path class="mesh-lines" d="M70 110 L250 180 L430 140 L620 220 L790 180 L980 250 L1160 210 L1360 300 L1540 260" />
+    <path class="mesh-lines" d="M40 360 L210 320 L390 390 L560 340 L740 420 L930 370 L1110 450 L1290 410 L1500 500" />
+    <path class="mesh-lines" d="M90 650 L280 590 L470 670 L660 620 L850 710 L1030 650 L1220 740 L1420 690 L1570 760" />
+    <path class="mesh-lines" d="M60 900 L230 850 L420 920 L610 870 L800 950 L990 900 L1180 970 L1380 930 L1560 980" />
 
-  <div x-show="loading" x-transition class="fixed inset-0 bg-white dark:bg-gray-900 z-50 flex items-center justify-center">
-    <div class="loading-skeleton h-32 w-32 rounded-lg" role="status" aria-label="Loading"></div>
+    <path class="mesh-lines secondary" d="M250 180 L210 320 L280 590 L230 850" />
+    <path class="mesh-lines secondary" d="M430 140 L390 390 L470 670 L420 920" />
+    <path class="mesh-lines secondary" d="M620 220 L560 340 L660 620 L610 870" />
+    <path class="mesh-lines secondary" d="M790 180 L740 420 L850 710 L800 950" />
+    <path class="mesh-lines secondary" d="M980 250 L930 370 L1030 650 L990 900" />
+    <path class="mesh-lines secondary" d="M1160 210 L1110 450 L1220 740 L1180 970" />
+    <path class="mesh-lines secondary" d="M1360 300 L1290 410 L1420 690 L1380 930" />
+
+    <circle class="halo red" cx="790" cy="180" r="10" />
+    <circle class="halo green" cx="1110" cy="450" r="10" />
+    <circle class="halo blue" cx="470" cy="670" r="10" />
+    <circle class="halo red" cx="1220" cy="740" r="10" />
+    <circle class="halo green" cx="610" cy="870" r="10" />
+    <circle class="halo blue" cx="990" cy="900" r="10" />
+
+    <circle class="node" cx="70" cy="110" r="3" />
+    <circle class="node" cx="250" cy="180" r="3.2" />
+    <circle class="node" cx="430" cy="140" r="3" />
+    <circle class="node" cx="620" cy="220" r="3.2" />
+    <circle class="node red" cx="790" cy="180" r="3.5" />
+    <circle class="node" cx="980" cy="250" r="3.2" />
+    <circle class="node" cx="1160" cy="210" r="3.2" />
+    <circle class="node" cx="1360" cy="300" r="3.2" />
+    <circle class="node blue" cx="1540" cy="260" r="3.4" />
+
+    <circle class="node" cx="40" cy="360" r="3" />
+    <circle class="node" cx="210" cy="320" r="3.1" />
+    <circle class="node" cx="390" cy="390" r="3.1" />
+    <circle class="node" cx="560" cy="340" r="3.1" />
+    <circle class="node" cx="740" cy="420" r="3.2" />
+    <circle class="node" cx="930" cy="370" r="3.1" />
+    <circle class="node green" cx="1110" cy="450" r="3.5" />
+    <circle class="node" cx="1290" cy="410" r="3.1" />
+    <circle class="node red" cx="1500" cy="500" r="3.4" />
+
+    <circle class="node" cx="90" cy="650" r="3" />
+    <circle class="node" cx="280" cy="590" r="3.1" />
+    <circle class="node blue" cx="470" cy="670" r="3.5" />
+    <circle class="node" cx="660" cy="620" r="3.1" />
+    <circle class="node" cx="850" cy="710" r="3.2" />
+    <circle class="node" cx="1030" cy="650" r="3.1" />
+    <circle class="node red" cx="1220" cy="740" r="3.5" />
+    <circle class="node" cx="1420" cy="690" r="3.1" />
+    <circle class="node" cx="1570" cy="760" r="3.1" />
+
+    <circle class="node" cx="60" cy="900" r="3" />
+    <circle class="node" cx="230" cy="850" r="3.1" />
+    <circle class="node" cx="420" cy="920" r="3.1" />
+    <circle class="node green" cx="610" cy="870" r="3.5" />
+    <circle class="node" cx="800" cy="950" r="3.2" />
+    <circle class="node blue" cx="990" cy="900" r="3.5" />
+    <circle class="node" cx="1180" cy="970" r="3.2" />
+    <circle class="node" cx="1380" cy="930" r="3.1" />
+    <circle class="node red" cx="1560" cy="980" r="3.4" />
+  </svg>
+
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <img src="logo_basic.png" alt="Centameta logo" class="brand-mark" />
+        <span class="brand-text">Centameta</span>
+      </div>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#services">Services</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="services" aria-label="Hero section">
+        <div>
+          <h1 class="headline">Building Intelligent Systems.</h1>
+          <p class="sub">Software. Embedded. Analytics.</p>
+          <p class="hero-note">
+            We design and build software platforms, embedded systems, and analytics pipelines that power intelligent products. 
+            Our expertise spans the full stack of technology, enabling us to create seamless, end-to-end solutions that drive innovation and deliver real-world impact.
+          </p>
+        </div>
+        <div class="monolith" aria-hidden="true"></div>
+      </section>
+
+      <div class="hero-divider"></div>
+
+      <section class="section" id="roadmap" aria-label="Project roadmap">
+        <h2>Roadmap</h2>
+        <p class="lead">
+          Active initiatives and upcoming projects across our core domains. Each project is an opportunity to push the boundaries of intelligent system design and deliver impactful solutions.
+        </p>
+
+        <div class="roadmap">
+          <article class="project" style="animation-delay: 60ms">
+            <h3>Researcher Assistant</h3>
+            <span class="tag">Coming Soon</span>
+          </article>
+
+          <article class="project" style="animation-delay: 120ms">
+            <h3>Travel Assistant</h3>
+            <span class="tag">Coming Soon</span>
+          </article>
+
+          <article class="project" style="animation-delay: 180ms">
+            <h3>Journaling App</h3>
+            <span class="tag">Coming Soon</span>
+          </article>
+
+          <article class="project" style="animation-delay: 240ms">
+            <h3>Therapy Games</h3>
+            <span class="tag">Coming Soon</span>
+          </article>
+
+          <article class="project" style="animation-delay: 300ms">
+            <h3>Embedded System Design</h3>
+            <span class="tag">Coming Soon</span>
+          </article>
+
+          <article class="project" style="animation-delay: 360ms">
+            <h3>Edge Solutions & Data Analytics</h3>
+            <span class="tag">Coming Soon</span>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="contact">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">Centameta</div>
+          <p class="footer-copy">Engineering depth for intelligent products across software, embedded systems, and analytics.</p>
+        </div>
+
+        <div>
+          <div class="footer-title">Contact</div>
+          <ul class="footer-links">
+            <li><a href="mailto:info@centameta.com">info@centameta.com</a></li>
+            <li><a href="tel:+14154759666">+1 415 475 9666</a></li>
+            <li><span>San Francisco, California</span></li>
+            <!-- <li><a href="https://github.com/centameta" target="_blank" rel="noopener">GitHub /centameta</a></li> -->
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-title">Channels</div>
+          <ul class="footer-links">
+            <li><a href="https://twitter.com/centameta" target="_blank" rel="noopener">X / Twitter</a></li>
+            <li><a href="https://youtube.com/@centameta" target="_blank" rel="noopener">YouTube</a></li>
+            <!-- <li><a href="https://instagram.com/centameta" target="_blank" rel="noopener">Instagram</a></li> -->
+            <li><a href="https://linkedin.com/company/centameta" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://discord.gg/centameta" target="_blank" rel="noopener">Discord</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-meta">Centameta • Engineering Depth for Intelligent Products</div>
+    </footer>
   </div>
-
-  <link rel="preload" as="image" href="https://developer.apple.com/assets/img/badges/download-on-the-app-store-badge.svg">
-  <link rel="preload" as="image" href="https://developer.android.com/images/google/play-badge.svg">
-
-  <header class="bg-cool text-white py-4 px-4 md:px-16 shadow-lg dark:bg-gray-800">
-    <nav class="flex flex-wrap items-center justify-between max-w-7xl mx-auto" aria-label="Main navigation">
-      <div class="flex items-center">
-        <img src="logo_basic.png" alt="Centameta Logo" class="w-12 h-12 object-contain" />
-        <span class="text-xl font-bold ml-2">Centameta</span>
-      </div>
-      <div class="hidden md:flex items-center space-x-4">
-        <a href="#about" class="hover:text-accent transition">About</a>
-        <a href="#apps" class="hover:text-accent transition">Our Apps</a>
-        <a href="#featured" class="hover:text-accent transition">Featured</a>
-        <a href="#blog" class="hover:text-accent transition">Blog</a>
-        <a href="#contact" class="hover:text-accent transition">Contact</a>
-        <button
-          @click="toggleDark()"
-          class="p-2 rounded-full hover:bg-white/10 transition"
-          :title="darkMode ? 'Switch to light mode' : 'Switch to dark mode'"
-          :aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'"
-        >
-          <svg x-show="!darkMode" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
-          </svg>
-          <svg x-show="darkMode" x-cloak class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
-          </svg>
-        </button>
-      </div>
-      <button
-        @click="mobileMenu = !mobileMenu"
-        class="md:hidden text-white focus:outline-none"
-        :aria-label="mobileMenu ? 'Close menu' : 'Open menu'"
-        :aria-expanded="mobileMenu"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path x-show="!mobileMenu" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          <path x-show="mobileMenu" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-      </button>
-    </nav>
-    <div
-      x-show="mobileMenu"
-      x-transition:enter="transition ease-out duration-200"
-      x-transition:enter-start="opacity-0 -translate-y-2"
-      x-transition:enter-end="opacity-100 translate-y-0"
-      x-transition:leave="transition ease-in duration-150"
-      x-transition:leave-start="opacity-100 translate-y-0"
-      x-transition:leave-end="opacity-0 -translate-y-2"
-      class="md:hidden bg-cool-light dark:bg-gray-700 text-cool dark:text-white px-4 py-2 space-y-2"
-    >
-      <a href="#about" class="block hover:text-accent transition" @click="mobileMenu = false">About</a>
-      <a href="#apps" class="block hover:text-accent transition" @click="mobileMenu = false">Our Apps</a>
-      <a href="#featured" class="block hover:text-accent transition" @click="mobileMenu = false">Featured</a>
-      <a href="#blog" class="block hover:text-accent transition" @click="mobileMenu = false">Blog</a>
-      <a href="#contact" class="block hover:text-accent transition" @click="mobileMenu = false">Contact</a>
-      <button
-        @click="toggleDark()"
-        class="p-2 rounded-full hover:bg-white/10 transition w-full text-left"
-        :aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'"
-      >
-        <span x-text="darkMode ? 'Light Mode' : 'Dark Mode'"></span>
-      </button>
-    </div>
-  </header>
-
-  <main id="main-content">
-    <section class="bg-cool text-white py-16 px-4 text-center dark:bg-gray-800">
-      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 animate-fade-in">Centameta</h1>
-      <p class="text-xl md:text-2xl font-medium animate-slide-up" style="animation-delay: 0.1s;">Innovative Mobile Apps & Games</p>
-      <p class="mt-4 text-lg text-cool-light animate-slide-up" style="animation-delay: 0.2s;">Download on iOS and Android</p>
-      <div class="mt-8 flex flex-wrap justify-center gap-4 animate-slide-up" style="animation-delay: 0.3s;">
-        <a href="https://apps.apple.com" target="_blank" rel="noopener" class="app-store-badge" title="Download on the App Store">
-          <img src="https://developer.apple.com/assets/img/badges/download-on-the-app-store-badge.svg" alt="Download on the App Store" class="h-12 md:h-14" loading="lazy" onerror="this.style.display='none'"/>
-        </a>
-        <a href="https://play.google.com" target="_blank" rel="noopener" class="app-store-badge" title="Get it on Google Play">
-          <img src="https://developer.android.com/images/google/play-badge.svg" alt="Get it on Google Play" class="h-12 md:h-14" loading="lazy" onerror="this.style.display='none'"/>
-        </a>
-      </div>
-    </section>
-
-    <section id="about" class="max-w-4xl mx-auto py-16 px-4">
-      <h2 class="text-3xl font-bold mb-6 text-cool dark:text-white text-center">About Us</h2>
-      <p class="mb-6 text-center text-lg text-text-light dark:text-gray-300">
-        Centameta creates innovative mobile apps and games designed to entertain and simplify everyday life. We're passionate about delivering engaging experiences on both iOS and Android platforms.
-      </p>
-      <ul class="bg-white dark:bg-gray-600 rounded-lg shadow p-6 space-y-4" role="list">
-        <li>
-          <span class="font-semibold text-accent">Mobile Games:</span>
-          <span class="dark:text-gray-300">Fun and addictive hyper-casual games that keep you entertained for hours.</span>
-        </li>
-        <li>
-          <span class="font-semibold text-accent">Utility Apps:</span>
-          <span class="dark:text-gray-300">Practical apps that help you stay organized, productive, and efficient.</span>
-        </li>
-        <li>
-          <span class="font-semibold text-accent">AI-Powered Solutions:</span>
-          <span class="dark:text-gray-300">Smart features that learn and adapt to make your life easier.</span>
-        </li>
-        <li>
-          <span class="font-semibold text-accent">Cross-Platform:</span>
-          <span class="dark:text-gray-300">Our apps work seamlessly on both iOS and Android devices.</span>
-        </li>
-      </ul>
-      <p class="mt-6 text-center text-lg text-text-light dark:text-gray-300">
-        With a focus on innovation, quality, and user satisfaction, Centameta brings delightful mobile experiences to millions of users worldwide.
-      </p>
-    </section>
-
-    <section id="apps" class="bg-cool-light py-16 px-4 dark:bg-gray-700">
-      <div class="max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold mb-10 text-cool dark:text-white text-center">Our Apps</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition p-6">
-            <h3 class="text-xl font-semibold mb-2 text-accent">Hyper-Casual Games</h3>
-            <p class="mb-4 text-text-light dark:text-gray-300">Quick, addictive games perfect for short breaks. Fun for all ages.</p>
-            <span class="inline-block bg-cool-light text-cool text-sm px-3 py-1 rounded dark:bg-gray-500 dark:text-white">iOS & Android</span>
-          </div>
-          <div class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition p-6">
-            <h3 class="text-xl font-semibold mb-2 text-accent">Productivity Apps</h3>
-            <p class="mb-4 text-text-light dark:text-gray-300">Stay organized with our suite of task management and utility apps.</p>
-            <span class="inline-block bg-cool-light text-cool text-sm px-3 py-1 rounded dark:bg-gray-500 dark:text-white">iOS & Android</span>
-          </div>
-          <div class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition p-6">
-            <h3 class="text-xl font-semibold mb-2 text-accent">AI Utilities</h3>
-            <p class="mb-4 text-text-light dark:text-gray-300">Smart AI-powered features that adapt to your usage patterns.</p>
-            <span class="inline-block bg-cool-light text-cool text-sm px-3 py-1 rounded dark:bg-gray-500 dark:text-white">iOS & Android</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="featured" class="py-16 px-4">
-      <div class="max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold mb-10 text-cool dark:text-white text-center">Featured Apps</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div class="featured-card bg-white dark:bg-gray-600 rounded-xl shadow-lg overflow-hidden">
-            <div class="h-48 bg-gradient-to-br from-accent to-accent-dark flex items-center justify-center">
-              <svg class="w-16 h-16 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-semibold mb-2 text-accent">GameDash</h3>
-              <p class="mb-4 text-text-light dark:text-gray-300">Your ultimate gaming companion. Track stats, discover new games, and connect with friends.</p>
-              <div class="flex gap-2">
-                <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">iOS</span>
-                <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">Android</span>
-              </div>
-            </div>
-          </div>
-          <div class="featured-card bg-white dark:bg-gray-600 rounded-xl shadow-lg overflow-hidden">
-            <div class="h-48 bg-gradient-to-br from-cool to-cool-light flex items-center justify-center">
-              <svg class="w-16 h-16 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
-              </svg>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-semibold mb-2 text-accent">TaskFlow</h3>
-              <p class="mb-4 text-text-light dark:text-gray-300">Minimalist task management with smart deadlines and team collaboration.</p>
-              <div class="flex gap-2">
-                <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">iOS</span>
-                <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">Android</span>
-              </div>
-            </div>
-          </div>
-          <div class="featured-card bg-white dark:bg-gray-600 rounded-xl shadow-lg overflow-hidden">
-            <div class="h-48 bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
-              <svg class="w-16 h-16 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-              </svg>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-semibold mb-2 text-accent">AI Assist</h3>
-              <p class="mb-4 text-text-light dark:text-gray-300">AI-powered virtual assistant to boost your daily productivity and creativity.</p>
-              <div class="flex gap-2">
-                <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">iOS</span>
-                <span class="text-xs bg-cool-light dark:bg-gray-500 px-2 py-1 rounded dark:text-white">Android</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="bg-cool text-white py-12 px-4 dark:bg-gray-800" aria-label="Social media links">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-2xl font-bold mb-6">Follow Us</h2>
-        <div class="flex justify-center gap-6">
-          <a href="https://twitter.com/centameta" target="_blank" rel="noopener" class="social-link text-white hover:text-accent" title="Twitter" aria-label="Follow us on Twitter">
-            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </a>
-          <a href="https://instagram.com/centameta" target="_blank" rel="noopener" class="social-link text-white hover:text-accent" title="Instagram" aria-label="Follow us on Instagram">
-            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </a>
-          <a href="https://discord.gg/centameta" target="_blank" rel="noopener" class="social-link text-white hover:text-accent" title="Discord" aria-label="Join us on Discord">
-            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5487-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
-            </svg>
-          </a>
-          <a href="https://github.com/centameta" target="_blank" rel="noopener" class="social-link text-white hover:text-accent" title="GitHub" aria-label="View our GitHub">
-            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section id="newsletter" class="bg-cool-light dark:bg-gray-700 py-16 px-4">
-      <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-4 text-cool dark:text-white">Stay Updated</h2>
-        <p class="mb-6 text-text-light dark:text-gray-300">Subscribe to our newsletter for the latest app updates, new releases, and exclusive content.</p>
-        <form action="https://formspree.io/f/newsletter" method="POST" class="flex flex-col sm:flex-row gap-3 justify-center">
-          <label for="newsletter-email" class="sr-only">Email address</label>
-          <input type="email" id="newsletter-email" name="email" placeholder="Enter your email" class="flex-1 max-w-sm px-4 py-3 rounded border border-cool-mid dark:bg-gray-600 dark:text-white dark:border-gray-500 focus:outline-none focus:ring-2 focus:ring-accent" required/>
-          <button type="submit" class="newsletter-btn bg-accent text-white px-6 py-3 rounded font-semibold hover:bg-accent-dark">Subscribe</button>
-        </form>
-        <p class="mt-3 text-sm text-text-light dark:text-gray-400">We respect your privacy. Unsubscribe anytime.</p>
-      </div>
-    </section>
-
-    <section id="blog" class="max-w-7xl mx-auto py-16 px-4">
-      <h2 class="text-3xl font-bold mb-10 text-cool dark:text-white text-center">Latest News</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <article class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition overflow-hidden">
-          <div class="h-40 bg-gradient-to-r from-accent to-purple-500 flex items-center justify-center">
-            <svg class="w-12 h-12 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-            </svg>
-          </div>
-          <div class="p-6">
-            <span class="text-xs text-accent font-semibold">April 2026</span>
-            <h3 class="text-lg font-semibold mt-2 dark:text-white">GameDash 2.0 Released</h3>
-            <p class="mt-2 text-text-light dark:text-gray-300 text-sm">Major update brings new social features, improved performance, and exclusive new games.</p>
-            <a href="#" class="inline-block mt-3 text-accent hover:underline text-sm font-medium">Read more →</a>
-          </div>
-        </article>
-        <article class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition overflow-hidden">
-          <div class="h-40 bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
-            <svg class="w-12 h-12 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-          </div>
-          <div class="p-6">
-            <span class="text-xs text-accent font-semibold">March 2026</span>
-            <h3 class="text-lg font-semibold mt-2 dark:text-white">1 Million Downloads!</h3>
-            <p class="mt-2 text-text-light dark:text-gray-300 text-sm">We're thrilled to announce our apps have been downloaded over 1 million times worldwide.</p>
-            <a href="#" class="inline-block mt-3 text-accent hover:underline text-sm font-medium">Read more →</a>
-          </div>
-        </article>
-        <article class="bg-white dark:bg-gray-600 rounded-xl shadow hover:shadow-lg transition overflow-hidden">
-          <div class="h-40 bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center">
-            <svg class="w-12 h-12 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-            </svg>
-          </div>
-          <div class="p-6">
-            <span class="text-xs text-accent font-semibold">February 2026</span>
-            <h3 class="text-lg font-semibold mt-2 dark:text-white">AI Assist Beta Launch</h3>
-            <p class="mt-2 text-text-light dark:text-gray-300 text-sm">Introducing our new AI-powered assistant. Join the beta program today!</p>
-            <a href="#" class="inline-block mt-3 text-accent hover:underline text-sm font-medium">Read more →</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="contact" class="max-w-4xl mx-auto py-16 px-4 text-center">
-      <h2 class="text-3xl font-bold mb-6 text-cool dark:text-white">Contact Us</h2>
-      <p class="mb-6 text-lg text-text-light dark:text-gray-300">We'd love to hear from you! Reach out for feedback, partnerships, or just to say hello.</p>
-      <div class="mb-4">
-        <span class="inline-block mr-4"><strong>Email:</strong> <a href="mailto:info@centameta.com" class="text-accent hover:underline">info@centameta.com</a></span>
-        <span class="inline-block"><strong>Phone:</strong> <a href="tel:+14154759666" class="text-accent hover:underline">+1 415 475 9666</a></span>
-      </div>
-      <button
-        @click="contactModal = true"
-        class="bg-accent text-white px-6 py-2 rounded shadow hover:bg-accent-dark transition font-semibold focus:outline-none"
-        aria-haspopup="dialog"
-      >
-        Send a Message
-      </button>
-      <div
-        x-show="contactModal"
-        x-cloak
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-150"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="contact-modal-title"
-        @keydown.escape.window="contactModal = false"
-      >
-        <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-8 w-full max-w-md relative">
-          <button
-            @click="contactModal = false"
-            class="absolute top-2 right-2 text-gray-400 hover:text-accent text-2xl font-bold"
-            aria-label="Close dialog"
-          >&times;</button>
-          <h3 id="contact-modal-title" class="text-xl font-bold mb-4 text-cool dark:text-white">Contact Form</h3>
-          <form action="https://formspree.io/f/centameta" method="POST" class="space-y-4">
-            <div>
-              <label for="contact-name" class="sr-only">Your Name</label>
-              <input type="text" id="contact-name" name="name" placeholder="Your Name" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-accent dark:bg-gray-600 dark:text-white" required/>
-            </div>
-            <div>
-              <label for="contact-email" class="sr-only">Your Email</label>
-              <input type="email" id="contact-email" name="email" placeholder="Your Email" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-accent dark:bg-gray-600 dark:text-white" required/>
-            </div>
-            <div>
-              <label for="contact-message" class="sr-only">Your Message</label>
-              <textarea id="contact-message" name="message" placeholder="Your Message" rows="4" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-accent dark:bg-gray-600 dark:text-white" required></textarea>
-            </div>
-            <button type="submit" class="bg-accent text-white px-4 py-2 rounded hover:bg-accent-dark transition font-semibold w-full">Send</button>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="bg-cool text-white py-6 px-4 text-center dark:bg-gray-800">
-    <p class="text-sm">&copy; 2026 Centameta. All rights reserved.</p>
-    <div class="mt-2 text-sm text-cool-light">
-      <a href="#" class="hover:text-accent mr-3">Privacy Policy</a>
-      <a href="#" class="hover:text-accent mr-3">Terms of Service</a>
-      <a href="#" class="hover:text-accent">Press Kit</a>
-    </div>
-  </footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(function() {
-        var loadingEl = document.querySelector('[x-show="loading"]');
-        if (loadingEl) {
-          loadingEl.style.display = 'none';
-        }
-        document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
-          img.classList.add('loaded');
-        });
-      }, 300);
-
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
-
-      const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            observer.unobserve(entry.target);
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll('.featured-card, article').forEach(function(el) {
-        el.style.transition = 'opacity 0.5s ease';
-        el.style.opacity = '0';
-        observer.observe(el);
-      });
-
-      window.addEventListener('load', function() {
-        if (window.Alpine) {
-          var data = Alpine.$data(document.documentElement);
-          if (data) data.loading = false;
-        }
-      });
-    });
-  </script>
 </body>
 </html>
