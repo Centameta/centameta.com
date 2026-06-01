@@ -1,3 +1,5 @@
+<!-- git-push-verify: 2026-06-01 -->
+
 # Centameta
 
 **Building Intelligent Systems.**
