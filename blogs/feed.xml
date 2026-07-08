@@ -5,8 +5,26 @@
     <link>https://centameta.com/blogs/</link>
     <description>Notes on intelligent systems, embedded development, analytics, and AI engineering.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 06 Jul 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://centameta.com/blogs/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Essential Nix commands for Rust projects</title>
+      <link>https://centameta.com/blogs/2026/07/06_essential-nix-commands-for-rust-projects.html</link>
+      <description>A concise guide to nix develop, nix shell, nix run, and nix build for Rust projects.</description>
+      <pubDate>Mon, 06 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Rust struct types — regular, tuple, and unit</title>
+      <link>https://centameta.com/blogs/2026/07/02_rust-struct-types-regular-tuple-and-unit.html</link>
+      <description>Named fields, tuple structs, and unit structs, with type-safety takeaways for systems code.</description>
+      <pubDate>Fri, 02 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Rust error handling: Option and Result</title>
+      <link>https://centameta.com/blogs/2026/07/01_rust-error-handling-option-and-result.html</link>
+      <description>How Option and Result make missing values and recoverable failures explicit in Rust.</description>
+      <pubDate>Thu, 01 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>Features and Use Cases of Hermes Agent</title>
       <link>https://centameta.com/blogs/2026/06/01_features-and-use-cases-of-hermes-agent.html</link>
