@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rust error handling: Option and Result" />
+  <link rel="canonical" href="https://centameta.com2026/07/2026-07-01_rust-error-handling-option-and-result.html" />
+  <title>Rust error handling: Option and Result | Centameta</title>
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://centameta.com2026/07/2026-07-01_rust-error-handling-option-and-result.html" />
+  <meta property="og:title" content="Rust error handling: Option and Result" />
+  <meta property="og:description" content="Rust error handling: Option and Result" />
+  <meta property="og:image" content="https://centameta.com/logo_basic.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://centameta.com2026/07/2026-07-01_rust-error-handling-option-and-result.html" />
+  <meta name="twitter:title" content="Rust error handling: Option and Result" />
+  <meta name="twitter:description" content="Rust error handling: Option and Result" />
+  <meta name="twitter:image" content="https://centameta.com/logo_basic.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Rust error handling: Option and Result",
+    "url": "https://centameta.com2026/07/2026-07-01_rust-error-handling-option-and-result.html",
+    "datePublished": "2026-07-01",
+    "author": { "@type": "Organization", "name": "Centameta" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Centameta",
+      "url": "https://centameta.com",
+      "logo": { "@type": "ImageObject", "url": "https://centameta.com/logo_basic.png" }
+    }
+  }
+  </script>
+  <style>
+    :root { --bg: #050506; --ink: #f4f4f5; --silver: #c7ccd4; --gold: #bda06a; --champagne: #e5d1a6; --accent-red: #bf4342; --muted: #8f96a2; --line: rgba(255,255,255,0.12); --glass: rgba(255,255,255,0.06); --max: 1160px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: radial-gradient(circle at 84% 12%, rgba(188,160,106,0.2), transparent 34%), radial-gradient(circle at 18% 14%, rgba(141,170,203,0.22), transparent 32%), linear-gradient(180deg, #060709 0%, #030304 100%); color: var(--ink); font-family: "Sora", sans-serif; min-height: 100vh; line-height: 1.5; }
+    .wrap { position: relative; max-width: 900px; margin: 0 auto; padding: 0 32px 80px; }
+    header.topbar { display: grid; grid-template-columns: 1fr auto; align-items: center; padding: 26px 0; border-bottom: 1px solid var(--line); }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .brand-text { font-family: "Syncopate", sans-serif; letter-spacing: 0.12em; font-size: 0.9rem; color: #f8f8f8; text-transform: uppercase; }
+    .nav { display: flex; gap: 22px; justify-content: flex-end; flex-wrap: wrap; }
+    .nav a { position: relative; text-decoration: none; color: var(--silver); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 220ms ease; }
+    .nav a::before { content: ""; position: absolute; left: -10px; top: 50%; width: 3px; height: 3px; border-radius: 50%; background: var(--accent-red); transform: translateY(-50%); opacity: 0.65; }
+    .nav a:hover { color: var(--champagne); }
+    .back { display: inline-flex; align-items: center; gap: 6px; margin-top: 26px; margin-bottom: 12px; color: var(--silver); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 220ms ease; }
+    .back:hover { color: var(--champagne); }
+    .article { margin-top: 18px; }
+    .article h1 { font-family: "Syncopate", sans-serif; text-transform: uppercase; letter-spacing: 0.08em; font-size: clamp(1.3rem, 2.8vw, 2rem); margin-bottom: 14px; }
+    .meta { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 28px; }
+    .article h2 { margin-top: 30px; font-family: "Syncopate", sans-serif; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--champagne); }
+    .article p { color: #cbd3de; margin-top: 14px; max-width: 70ch; font-size: 0.96rem; }
+    .article ul { margin-top: 16px; padding-left: 18px; color: #c8d0dc; font-size: 0.96rem; }
+    .article li { margin-top: 8px; }
+    .article pre { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; margin-top: 18px; overflow-x: auto; }
+    .article code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 0.92rem; color: #f0dfbe; }
+    .article blockquote { color: #cad3df; border-left: 3px solid rgba(229,209,166,0.6); padding-left: 14px; margin-top: 18px; }
+    .article a { color: var(--gold); text-decoration: none; }
+    .article a:hover { color: var(--champagne); text-decoration: underline; }
+    table { border-collapse: collapse; margin-top: 18px; width: 100%; max-width: 70ch; }
+    td { border: 1px solid rgba(255,255,255,0.12); padding: 10px 12px; color: #c8d0dc; font-size: 0.96rem; vertical-align: top; }
+    footer.footer { border-top: 1px solid var(--line); padding: 22px 0 40px; margin-top: 54px; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.08em; }
+    footer.footer a { color: inherit; text-decoration: none; }
+    footer.footer a:hover { color: var(--champagne); }
+    @media (max-width: 640px) {
+      .wrap { padding: 0 20px 70px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="/"><span class="brand-text">Centameta</span></a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/blogs/">Blog</a>
+      </nav>
+    </header>
+    <article class="article">
+      <a class="back" href="/blogs/">&larr; Back to Blog</a>
+      <h1>Rust error handling: Option and Result</h1>
+      <div class="meta">July 01, 2026</div>
+      <p>Rust error handling: Option and Result</p>
+<p>Rust turns many runtime errors into compile-time guarantees through two enums: `Option<T>` and `Result<T, E>`. Unlike null-pointer exceptions, you cannot ignore these values. The compiler forces you to handle them before using the underlying data.</p>
+<blockquote>Missing-value and failure cases become explicit types, not hidden assumptions.</blockquote>
+<h2>Option<T>: a value that may not exist</h2>
+<pre><code>enum Option<T> {
+<p>    Some(T),</p>
+<p>    None,</p>
+<p>}</p>
+</code></pre>
+<p>Use `Option` when a value is optional.</p>
+<pre><code>let text = map.get("missing");
+<p>match text {</p>
+<p>    Some(t) => println!("{}", t),</p>
+<p>    None => println!("not found"),</p>
+<p>}</p>
+</code></pre>
+<p>Shorthand forms:</p>
+<pre><code>if let Some(t) = text {
+<p>    println!("{}", t);</p>
+<p>}</p>
+<p>let t = text.unwrap_or("default");</p>
+</code></pre>
+<h2>Result<T, E>: an operation that may fail</h2>
+<pre><code>enum Result<T, E> {
+<p>    Ok(T),</p>
+<p>    Err(E),</p>
+<p>}</p>
+</code></pre>
+<p>Use `Result` for operations that can fail with a typed reason.</p>
+<pre><code>match fs::read_to_string(path) {
+<p>    Ok(data) => process(data),</p>
+<p>    Err(Error::NotFound) => eprintln!("missing file"),</p>
+<p>    Err(Error::PermissionDenied) => eprintln!("access denied"),</p>
+<p>    Err(e) => eprintln!("io failed: {}", e),</p>
+<p>}</p>
+</code></pre>
+<h2>Pattern matching as try/catch</h2>
+<p>The closest equivalent to try/catch with per-error behavior is `match` on `Result`.</p>
+<tr><td>Pattern</td><td>Purpose</td></tr>
+<p>|:--|:--|</p>
+<tr><td>`match result { ... }`</td><td>exhaustive per-error handling</td></tr>
+<tr><td>`if let Err(e) = result { ... }`</td><td>handle one variant</td></tr>
+<tr><td>`result.map_err(</td><td>e</td><td>handle(e))?`</td><td>transform then propagate</td></tr>
+<tr><td>`?` operator</td><td>return error to caller immediately</td></tr>
+<pre><code>match parse_config(path) {
+<p>    Ok(cfg) => run(cfg),</p>
+<p>    Err(ConfigError::Missing(key)) => eprintln!("missing key: {}", key),</p>
+<p>    Err(ConfigError::Parse(e)) => eprintln!("parse failed: {}", e),</p>
+<p>    Err(e) => return Err(e),</p>
+<p>}</p>
+</code></pre>
+<h2>The ? operator</h2>
+<p>`?` unwraps `Ok` and returns `Err` early from the current function. It replaces nested `match` for linear happy-path flow.</p>
+<pre><code>fn load() -> Result<Config, ConfigError> {
+<p>    let text = fs::read_to_string(path)?;</p>
+<p>    let cfg = parse(&text)?;</p>
+<p>    Ok(cfg)</p>
+<p>}</p>
+</code></pre>
+<h2>Why not exceptions</h2>
+<p>Exceptions hide control flow. A function can return normally or throw from anywhere, making reasoning about state harder. Rust errors are values. They flow through the type system, are explicit in signatures, and cannot be silently ignored.</p>
+<blockquote>Core lesson: handle missing data with `Option`, handle recoverable failure with `Result`, and reserve panics for unrecoverable program invariants.</blockquote>
+    </article>
+    <footer class="footer">
+      <a href="/">Centameta</a> · Engineering Depth for Intelligent Products
+    </footer>
+  </div>
+</body>
+</html>

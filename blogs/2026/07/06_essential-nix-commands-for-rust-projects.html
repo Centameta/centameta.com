@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Essential Nix commands for Rust projects — concise Rust tooling study note." />
+  <link rel="canonical" href="https://centameta.com/blogs/2026/07/06_essential-nix-commands-for-rust-projects.html" />
+  <title>Essential Nix commands for Rust projects | Centameta</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://centameta.com/blogs/2026/07/06_essential-nix-commands-for-rust-projects.html" />
+  <meta property="og:title" content="Essential Nix commands for Rust projects" />
+  <meta property="og:description" content="Essential Nix commands for Rust projects — concise Rust tooling study note." />
+  <meta property="og:image" content="https://centameta.com/logo_basic.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://centameta.com/blogs/2026/07/06_essential-nix-commands-for-rust-projects.html" />
+  <meta name="twitter:title" content="Essential Nix commands for Rust projects" />
+  <meta name="twitter:description" content="Essential Nix commands for Rust projects — concise Rust tooling study note." />
+  <meta name="twitter:image" content="https://centameta.com/logo_basic.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Essential Nix commands for Rust projects",
+    "url": "https://centameta.com/blogs/2026/07/06_essential-nix-commands-for-rust-projects.html",
+    "datePublished": "2026-07-06",
+    "author": {
+      "@type": "Organization",
+      "name": "Centameta"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Centameta",
+      "url": "https://centameta.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://centameta.com/logo_basic.png"
+      }
+    }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050506;
+      --ink: #f4f4f5;
+      --silver: #c7ccd4;
+      --gold: #bda06a;
+      --champagne: #e5d1a6;
+      --accent-red: #bf4342;
+      --muted: #8f96a2;
+      --line: rgba(255, 255, 255, 0.12);
+      --glass: rgba(255, 255, 255, 0.06);
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 84% 12%, rgba(188, 160, 106, 0.2), transparent 34%), radial-gradient(circle at 18% 14%, rgba(141, 170, 203, 0.22), transparent 32%), linear-gradient(180deg, #060709 0%, #030304 100%);
+      color: var(--ink);
+      font-family: "Sora", sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    .wrap {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
+    }
+    header.topbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .brand-text { font-family: "Syncopate", sans-serif; letter-spacing: 0.12em; font-size: 0.9rem; color: #f8f8f8; text-transform: uppercase; }
+    .nav { display: flex; gap: 22px; justify-content: flex-end; flex-wrap: wrap; }
+    .nav a { position: relative; text-decoration: none; color: var(--silver); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 220ms ease; }
+    .nav a::before { content: ""; position: absolute; left: -10px; top: 50%; width: 3px; height: 3px; border-radius: 50%; background: var(--accent-red); transform: translateY(-50%); opacity: 0.65; }
+    .nav a:hover { color: var(--champagne); }
+    .back { display: inline-flex; align-items: center; gap: 6px; margin-top: 26px; margin-bottom: 12px; color: var(--silver); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 220ms ease; }
+    .back:hover { color: var(--champagne); }
+    .article { margin-top: 18px; }
+    .article h1 { font-family: "Syncopate", sans-serif; text-transform: uppercase; letter-spacing: 0.08em; font-size: clamp(1.3rem, 2.8vw, 2rem); margin-bottom: 14px; }
+    .meta { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 28px; }
+    .article h2 { margin-top: 30px; font-family: "Syncopate", sans-serif; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--champagne); }
+    .article p { color: #cbd3de; margin-top: 14px; max-width: 70ch; font-size: 0.96rem; }
+    .article ul { margin-top: 16px; padding-left: 18px; color: #c8d0dc; font-size: 0.96rem; }
+    .article li { margin-top: 8px; }
+    .article pre { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; margin-top: 18px; overflow-x: auto; }
+    .article code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 0.92rem; color: #f0dfbe; }
+    .article blockquote { color: #cad3df; border-left: 3px solid rgba(229, 209, 166, 0.6); padding-left: 14px; margin-top: 18px; }
+    .article a { color: var(--gold); text-decoration: none; }
+    .article a:hover { color: var(--champagne); text-decoration: underline; }
+    table { border-collapse: collapse; margin-top: 18px; width: 100%; max-width: 70ch; }
+    td { border: 1px solid rgba(255,255,255,0.12); padding: 10px 12px; color: #c8d0dc; font-size: 0.96rem; vertical-align: top; }
+    footer.footer { border-top: 1px solid var(--line); padding: 22px 0 40px; margin-top: 54px; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.08em; }
+    footer.footer a { color: inherit; text-decoration: none; }
+    footer.footer a:hover { color: var(--champagne); }
+    @media (max-width: 640px) {
+      .wrap { padding: 0 20px 70px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-text">Centameta</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/blogs/">Blog</a>
+      </nav>
+    </header>
+
+    <article class="article">
+      <a class="back" href="/blogs/">&larr; Back to Blog</a>
+      <h1>Essential Nix commands for Rust projects</h1>
+      <div class="meta">July 06, 2026</div>
+      <p>Essential Nix commands for Rust projects</p>
+<p>Nix gives you reproducible Rust toolchains without polluting your system. The modern CLI splits responsibilities into four commands you will actually use on a daily basis. The mental model is simple: develop means write, shell means consume, run means execute, and build means package.</p>
+<blockquote>Four commands, four intents: `nix develop`, `nix shell`, `nix run`, `nix build`.</blockquote>
+<h2>Why this matters for Rust</h2>
+<p>In C/C++ you often reach for Docker, pyenv, rustup, or a global `cargo install`. Nix replaces all of that with per-project environments. No version managers, no hidden global state. Each project declares its exact toolchain in one flake or `shell.nix`, and Nix materializes it on demand.</p>
+<h2>nix develop: the project workspace</h2>
+<p>`nix develop` starts an interactive shell pre-configured with the exact dependencies Nix would use to build your project. It does not compile your project for you. It stops just before the build and hands control to you.</p>
+<pre><code># Enter the dev shell for the current flake's default devShell
+<p>nix develop</p>
+<p># Or enter a named Rust dev shell</p>
+<p>nix develop nixpkgs#rustPlatform</p>
+</code></pre>
+<p>Inside `nix develop`, you get:</p>
+<ul>
+<li>The correct Rust toolchain</li>
+<ul>
+<li>Cargo, rustc, rustfmt, clippy</li>
+<ul>
+<li>Any native libraries your build needs, such as OpenSSL or SQLite</li>
+<pre><code>nix develop
+<p>cargo build</p>
+<p>cargo clippy</p>
+<p>cargo test</p>
+</code></pre>
+<blockquote>`nix develop` is the equivalent of your embedded Makefile environment: compiler, linker flags, libraries, and headers all resolved and ready.</blockquote>
+<h2>nix shell: the one-off tool</h2>
+<p>`nix shell` is for software you want to run, not modify. It prepends the package's `bin` directory to `$PATH` and drops you into a shell.</p>
+<pre><code># Run a single tool without installing it
+<p>nix shell nixpkgs#cargo-watch</p>
+<p>cargo-watch -x test</p>
+</code></pre>
+<p>This is also useful when you need a specific version of a tool outside your project's dev shell.</p>
+<pre><code># Use a pinned cargo version
+<p>nix shell nixpkgs#cargo_2</p>
+<p>cargo --version</p>
+</code></pre>
+<blockquote>`nix shell` is like `extract` from a firmware image: you get the usable binary, not the whole build environment.</blockquote>
+<h2>nix run: execute without entering</h2>
+<p>`nix run` compiles or downloads a package and executes it directly. No manual `$PATH` management needed.</p>
+<pre><code># Run a CLI tool from nixpkgs
+<p>nix run nixpkgs#cargo-audit -- audit</p>
+</code></pre>
+<p>With flakes you can run project binaries directly when `package` or `apps` are defined.</p>
+<pre><code># Run the default app from a flake
+<p>nix run .</p>
+<p># Run a specific app</p>
+<p>nix run .#my-cli --</p>
+</code></pre>
+<blockquote>`nix run` is the shortest path from declaration to execution. Think of it like calling a function from a library: no linker setup, just run.</blockquote>
+<h2>nix build: produce the artifact</h2>
+<p>`nix build` compiles the package and stores the result in the Nix store. The output path is deterministic and reproducible.</p>
+<pre><code># Build the default package
+<p>nix build</p>
+<p># Build a specific package from nixpkgs</p>
+<p>nix build nixpkgs#ripgrep</p>
+<p># Inspect where the result landed</p>
+<p>ls -l ./result</p>
+</code></pre>
+<p>For Rust projects, `nix build` can produce binaries, libraries, or even Docker images from a flake output. The result is always content-addressed: identical inputs yield identical outputs.</p>
+<pre><code># Build the release binary defined in flake.nix
+<p>nix build .#my-app</p>
+<p># ./result/bin/my-app is now available</p>
+<p>./result/bin/my-app --version</p>
+</code></pre>
+<blockquote>`nix build` is your CI pipeline in local form. Same derivation, same environment, same binary every time.</blockquote>
+<h2>The command matrix</h2>
+<tr><td>Intent</td><td>Command</td><td>Stops before build?</td><td>Gives you binary?</td><td>Use case</td></tr>
+<tr><td>Write or debug</td><td>`nix develop`</td><td>Yes</td><td>No</td><td>Dependency-heavy Rust work</td></tr>
+<tr><td>Use a tool</td><td>`nix shell`</td><td>Yes</td><td>Yes</td><td>ad-hoc binaries</td></tr>
+<tr><td>Run and exit</td><td>`nix run`</td><td>No</td><td>No</td><td>one-shot commands</td></tr>
+<tr><td>Compile artifact</td><td>`nix build`</td><td>No</td><td>Yes</td><td>reproducible binaries</td></tr>
+<h2>Practical Rust workflow</h2>
+<pre><code># 1. Enter the dev shell
+<p>nix develop</p>
+<p># 2. Inside, run cargo commands</p>
+<p>cargo check --all-targets</p>
+<p>cargo test</p>
+<p>cargo build --release</p>
+<p># 3. Build the packaged artifact</p>
+<p>exit</p>
+<p>nix build .#my-app</p>
+<p># 4. Run the artifact directly</p>
+<p>nix run .#my-app</p>
+</code></pre>
+<p>The boundaries are strict by design and they consistently remove guesswork.</p>
+<blockquote>Core lesson: `nix develop` writes the software, `nix shell` provides it, `nix run` uses it, and `nix build` ships it.</blockquote>
+    </article>
+
+    <footer class="footer">
+      <a href="/">Centameta</a> · Engineering Depth for Intelligent Products
+    </footer>
+  </div>
+</body>
+</html>

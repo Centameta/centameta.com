@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rust struct types — regular, tuple, and unit" />
+  <link rel="canonical" href="https://centameta.com2026/07/2026-07-02_rust-struct-types-regular-tuple-and-unit.html" />
+  <title>Rust struct types — regular, tuple, and unit | Centameta</title>
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://centameta.com2026/07/2026-07-02_rust-struct-types-regular-tuple-and-unit.html" />
+  <meta property="og:title" content="Rust struct types — regular, tuple, and unit" />
+  <meta property="og:description" content="Rust struct types — regular, tuple, and unit" />
+  <meta property="og:image" content="https://centameta.com/logo_basic.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://centameta.com2026/07/2026-07-02_rust-struct-types-regular-tuple-and-unit.html" />
+  <meta name="twitter:title" content="Rust struct types — regular, tuple, and unit" />
+  <meta name="twitter:description" content="Rust struct types — regular, tuple, and unit" />
+  <meta name="twitter:image" content="https://centameta.com/logo_basic.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Rust struct types — regular, tuple, and unit",
+    "url": "https://centameta.com2026/07/2026-07-02_rust-struct-types-regular-tuple-and-unit.html",
+    "datePublished": "2026-07-02",
+    "author": { "@type": "Organization", "name": "Centameta" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Centameta",
+      "url": "https://centameta.com",
+      "logo": { "@type": "ImageObject", "url": "https://centameta.com/logo_basic.png" }
+    }
+  }
+  </script>
+  <style>
+    :root { --bg: #050506; --ink: #f4f4f5; --silver: #c7ccd4; --gold: #bda06a; --champagne: #e5d1a6; --accent-red: #bf4342; --muted: #8f96a2; --line: rgba(255,255,255,0.12); --glass: rgba(255,255,255,0.06); --max: 1160px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: radial-gradient(circle at 84% 12%, rgba(188,160,106,0.2), transparent 34%), radial-gradient(circle at 18% 14%, rgba(141,170,203,0.22), transparent 32%), linear-gradient(180deg, #060709 0%, #030304 100%); color: var(--ink); font-family: "Sora", sans-serif; min-height: 100vh; line-height: 1.5; }
+    .wrap { position: relative; max-width: 900px; margin: 0 auto; padding: 0 32px 80px; }
+    header.topbar { display: grid; grid-template-columns: 1fr auto; align-items: center; padding: 26px 0; border-bottom: 1px solid var(--line); }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+    .brand-text { font-family: "Syncopate", sans-serif; letter-spacing: 0.12em; font-size: 0.9rem; color: #f8f8f8; text-transform: uppercase; }
+    .nav { display: flex; gap: 22px; justify-content: flex-end; flex-wrap: wrap; }
+    .nav a { position: relative; text-decoration: none; color: var(--silver); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 220ms ease; }
+    .nav a::before { content: ""; position: absolute; left: -10px; top: 50%; width: 3px; height: 3px; border-radius: 50%; background: var(--accent-red); transform: translateY(-50%); opacity: 0.65; }
+    .nav a:hover { color: var(--champagne); }
+    .back { display: inline-flex; align-items: center; gap: 6px; margin-top: 26px; margin-bottom: 12px; color: var(--silver); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 220ms ease; }
+    .back:hover { color: var(--champagne); }
+    .article { margin-top: 18px; }
+    .article h1 { font-family: "Syncopate", sans-serif; text-transform: uppercase; letter-spacing: 0.08em; font-size: clamp(1.3rem, 2.8vw, 2rem); margin-bottom: 14px; }
+    .meta { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 28px; }
+    .article h2 { margin-top: 30px; font-family: "Syncopate", sans-serif; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--champagne); }
+    .article p { color: #cbd3de; margin-top: 14px; max-width: 70ch; font-size: 0.96rem; }
+    .article ul { margin-top: 16px; padding-left: 18px; color: #c8d0dc; font-size: 0.96rem; }
+    .article li { margin-top: 8px; }
+    .article pre { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; margin-top: 18px; overflow-x: auto; }
+    .article code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 0.92rem; color: #f0dfbe; }
+    .article blockquote { color: #cad3df; border-left: 3px solid rgba(229,209,166,0.6); padding-left: 14px; margin-top: 18px; }
+    .article a { color: var(--gold); text-decoration: none; }
+    .article a:hover { color: var(--champagne); text-decoration: underline; }
+    table { border-collapse: collapse; margin-top: 18px; width: 100%; max-width: 70ch; }
+    td { border: 1px solid rgba(255,255,255,0.12); padding: 10px 12px; color: #c8d0dc; font-size: 0.96rem; vertical-align: top; }
+    footer.footer { border-top: 1px solid var(--line); padding: 22px 0 40px; margin-top: 54px; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.08em; }
+    footer.footer a { color: inherit; text-decoration: none; }
+    footer.footer a:hover { color: var(--champagne); }
+    @media (max-width: 640px) {
+      .wrap { padding: 0 20px 70px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="/"><span class="brand-text">Centameta</span></a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/blogs/">Blog</a>
+      </nav>
+    </header>
+    <article class="article">
+      <a class="back" href="/blogs/">&larr; Back to Blog</a>
+      <h1>Rust struct types — regular, tuple, and unit</h1>
+      <div class="meta">July 02, 2026</div>
+      <p>Rust struct types — regular, tuple, and unit</p>
+<p>Rust gives you three ways to define a struct. Each exists because sometimes naming a field is helpful, sometimes the position is enough, and sometimes you just need a named thing with no data at all.</p>
+<pre><code>struct Regular {
+<p>    red: u8,</p>
+<p>    green: u8,</p>
+<p>    blue: u8,</p>
+<p>}</p>
+<p>struct Tuple(u8, u8, u8);</p>
+<p>struct Unit;</p>
+</code></pre>
+<h2>Regular struct — named fields</h2>
+<p>The standard form. Every field has a name and a type.</p>
+<pre><code>struct ColorRegularStruct {
+<p>    red: u8,</p>
+<p>    green: u8,</p>
+<p>    blue: u8,</p>
+<p>}</p>
+<p>let green = ColorRegularStruct {</p>
+<p>    red: 0,</p>
+<p>    green: 255,</p>
+<p>    blue: 0,</p>
+<p>};</p>
+<p>println!("{}", green.red);  // 0</p>
+</code></pre>
+<p>Named fields make the code self-documenting. When you see `green.red`, you know exactly what it is.</p>
+<h2>Tuple struct — positional fields</h2>
+<p>Fields have positions instead of names. Access them with `.0`, `.1`, `.2` — same syntax as tuples.</p>
+<pre><code>struct ColorTupleStruct(u8, u8, u8);
+<p>let green = ColorTupleStruct(0, 255, 0);</p>
+<p>println!("{}", green.0);  // 0</p>
+</code></pre>
+<p>The difference from a bare tuple `(u8, u8, u8)` is that `ColorTupleStruct` is its own type. The compiler will not let you pass a `ColorTupleStruct` where a `(u8, u8, u8)` is expected, or confuse it with another tuple struct that happens to have the same field types.</p>
+<pre><code>struct Rgb(u8, u8, u8);
+<p>struct Hsv(f32, f32, f32);</p>
+<p>let c = Rgb(255, 0, 0);</p>
+<p>let d = Hsv(0.0, 1.0, 0.5);</p>
+<p>// c = d;  // ❌ type mismatch — Rgb vs Hsv</p>
+</code></pre>
+<h2>The C embedded analogy</h2>
+<p>In C, you use `struct` for named fields and raw arrays for positional data:</p>
+<p>```c</p>
+<p>// Named fields — like regular struct</p>
+<p>struct sensor {</p>
+<p>    uint32_t raw;</p>
+<p>    uint8_t channel;</p>
+<p>};</p>
+<p>// Positional — like tuple struct</p>
+<p>uint8_t rgb[3] = {0, 255, 0};</p>
+<p>rgb[0];  // 0 — positional, but unchecked</p>
+<pre><code>
+<p>The difference: `struct ColorTupleStruct(u8, u8, u8)` is a **named type** even though its fields are positional. A C array `uint8_t[3]` has no type identity — you can pass it anywhere that accepts any `uint8_t*`. A tuple struct stops you from mixing up RGB values with, say, accelerometer readings that happen to also be three `u8`s.</p>
+<tr><td>C concept</td><td>Rust equivalent</td><td>Type safety</td></tr>
+<p>|---|---|---|</p>
+<tr><td>`struct { uint8_t r, g, b; }`</td><td>Regular struct with named fields</td><td>✅ Field access by name</td></tr>
+<tr><td>`uint8_t arr[3]` with positional convention</td><td>Tuple struct with positional fields</td><td>✅ Named type, won't mix with other 3-byte tuples</td></tr>
+<tr><td>`typedef struct {} Empty` zero-size marker</td><td>Unit struct</td><td>✅ Named type, zero bytes</td></tr>
+<h2>Unit struct — the zero-size marker</h2>
+</code></pre>rust
+<p>struct UnitStruct;</p>
+<pre><code>
+<p>A struct with no fields. It occupies zero bytes at runtime. The compiler knows it exists, but it carries no data.</p>
+</code></pre>rust
+<p>let unit = UnitStruct;</p>
+<p>println!("{:?}s are fun!", unit);  // UnitStructs are fun!</p>
+<pre><code>
+<p>**Embedded use cases.** Unit structs are used as type-level markers:</p>
+<ul>
+<li>**Type-state pattern** — `struct Connected;` and `struct Disconnected;` as types on a handle. The compiler can enforce that you can't write to a disconnected port.</li>
+<ul>
+<li>**Trait implementations** — when you need a type to implement a trait but have no data to store, a unit struct is the zero-overhead way.</li>
+</code></pre>rust
+<p>trait Register {</p>
+<p>    fn address(&self) -> u32;</p>
+<p>}</p>
+<p>struct AdcConfig;</p>
+<p>impl Register for AdcConfig {</p>
+<p>    fn address(&self) -> u32 { 0x4001_2000 }</p>
+<p>}</p>
+<p>struct DmaConfig;</p>
+<p>impl Register for DmaConfig {</p>
+<p>    fn address(&self) -> u32 { 0x4002_0000 }</p>
+<p>}</p>
+<p>```</p>
+<h2>Which one to use</h2>
+<tr><td>Situation</td><td>Struct type</td></tr>
+<p>|---|---|</p>
+<tr><td>Each field has a distinct meaning</td><td>Regular struct with named fields</td></tr>
+<tr><td>Position alone conveys the meaning (RGB, XY coordinates)</td><td>Tuple struct</td></tr>
+<tr><td>You need a distinct type with no data (type-state, trait marker)</td><td>Unit struct</td></tr>
+<tr><td>Quick one-off grouping within a function</td><td>Bare tuple `(u8, u8, u8)`</td></tr>
+<h2>The core lesson</h2>
+<p>The three struct forms are not redundancy. They give you different levels of **type identity**:</p>
+<ul>
+<li>A bare tuple `(u8, u8, u8)` is anonymous — you can pass it anywhere that shape is accepted.</li>
+<ul>
+<li>A tuple struct `Color(u8, u8, u8)` is a named type — the compiler enforces intent.</li>
+<ul>
+<li>A regular struct `Color { r, g, b }` is named **and** self-documenting — the compiler enforces intent and the code tells you what each field means.</li>
+<p>Pick the least amount of ceremony that still makes wrong code look wrong to the compiler.</p>
+    </article>
+    <footer class="footer">
+      <a href="/">Centameta</a> · Engineering Depth for Intelligent Products
+    </footer>
+  </div>
+</body>
+</html>
