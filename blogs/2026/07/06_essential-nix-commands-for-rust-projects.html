@@ -126,92 +126,102 @@
       <a class="back" href="/blogs/">&larr; Back to Blog</a>
       <h1>Essential Nix commands for Rust projects</h1>
       <div class="meta">July 06, 2026</div>
-      <p>Essential Nix commands for Rust projects</p>
-<p>Nix gives you reproducible Rust toolchains without polluting your system. The modern CLI splits responsibilities into four commands you will actually use on a daily basis. The mental model is simple: develop means write, shell means consume, run means execute, and build means package.</p>
-<blockquote>Four commands, four intents: `nix develop`, `nix shell`, `nix run`, `nix build`.</blockquote>
-<h2>Why this matters for Rust</h2>
-<p>In C/C++ you often reach for Docker, pyenv, rustup, or a global `cargo install`. Nix replaces all of that with per-project environments. No version managers, no hidden global state. Each project declares its exact toolchain in one flake or `shell.nix`, and Nix materializes it on demand.</p>
-<h2>nix develop: the project workspace</h2>
-<p>`nix develop` starts an interactive shell pre-configured with the exact dependencies Nix would use to build your project. It does not compile your project for you. It stops just before the build and hands control to you.</p>
-<pre><code># Enter the dev shell for the current flake's default devShell
-<p>nix develop</p>
-<p># Or enter a named Rust dev shell</p>
-<p>nix develop nixpkgs#rustPlatform</p>
-</code></pre>
-<p>Inside `nix develop`, you get:</p>
-<ul>
-<li>The correct Rust toolchain</li>
-<ul>
-<li>Cargo, rustc, rustfmt, clippy</li>
-<ul>
-<li>Any native libraries your build needs, such as OpenSSL or SQLite</li>
-<pre><code>nix develop
-<p>cargo build</p>
-<p>cargo clippy</p>
-<p>cargo test</p>
-</code></pre>
-<blockquote>`nix develop` is the equivalent of your embedded Makefile environment: compiler, linker flags, libraries, and headers all resolved and ready.</blockquote>
-<h2>nix shell: the one-off tool</h2>
-<p>`nix shell` is for software you want to run, not modify. It prepends the package's `bin` directory to `$PATH` and drops you into a shell.</p>
-<pre><code># Run a single tool without installing it
-<p>nix shell nixpkgs#cargo-watch</p>
-<p>cargo-watch -x test</p>
-</code></pre>
-<p>This is also useful when you need a specific version of a tool outside your project's dev shell.</p>
-<pre><code># Use a pinned cargo version
-<p>nix shell nixpkgs#cargo_2</p>
-<p>cargo --version</p>
-</code></pre>
-<blockquote>`nix shell` is like `extract` from a firmware image: you get the usable binary, not the whole build environment.</blockquote>
-<h2>nix run: execute without entering</h2>
-<p>`nix run` compiles or downloads a package and executes it directly. No manual `$PATH` management needed.</p>
-<pre><code># Run a CLI tool from nixpkgs
-<p>nix run nixpkgs#cargo-audit -- audit</p>
-</code></pre>
-<p>With flakes you can run project binaries directly when `package` or `apps` are defined.</p>
-<pre><code># Run the default app from a flake
-<p>nix run .</p>
-<p># Run a specific app</p>
-<p>nix run .#my-cli --</p>
-</code></pre>
-<blockquote>`nix run` is the shortest path from declaration to execution. Think of it like calling a function from a library: no linker setup, just run.</blockquote>
-<h2>nix build: produce the artifact</h2>
-<p>`nix build` compiles the package and stores the result in the Nix store. The output path is deterministic and reproducible.</p>
-<pre><code># Build the default package
-<p>nix build</p>
-<p># Build a specific package from nixpkgs</p>
-<p>nix build nixpkgs#ripgrep</p>
-<p># Inspect where the result landed</p>
-<p>ls -l ./result</p>
-</code></pre>
-<p>For Rust projects, `nix build` can produce binaries, libraries, or even Docker images from a flake output. The result is always content-addressed: identical inputs yield identical outputs.</p>
-<pre><code># Build the release binary defined in flake.nix
-<p>nix build .#my-app</p>
-<p># ./result/bin/my-app is now available</p>
-<p>./result/bin/my-app --version</p>
-</code></pre>
-<blockquote>`nix build` is your CI pipeline in local form. Same derivation, same environment, same binary every time.</blockquote>
-<h2>The command matrix</h2>
-<tr><td>Intent</td><td>Command</td><td>Stops before build?</td><td>Gives you binary?</td><td>Use case</td></tr>
-<tr><td>Write or debug</td><td>`nix develop`</td><td>Yes</td><td>No</td><td>Dependency-heavy Rust work</td></tr>
-<tr><td>Use a tool</td><td>`nix shell`</td><td>Yes</td><td>Yes</td><td>ad-hoc binaries</td></tr>
-<tr><td>Run and exit</td><td>`nix run`</td><td>No</td><td>No</td><td>one-shot commands</td></tr>
-<tr><td>Compile artifact</td><td>`nix build`</td><td>No</td><td>Yes</td><td>reproducible binaries</td></tr>
-<h2>Practical Rust workflow</h2>
-<pre><code># 1. Enter the dev shell
-<p>nix develop</p>
-<p># 2. Inside, run cargo commands</p>
-<p>cargo check --all-targets</p>
-<p>cargo test</p>
-<p>cargo build --release</p>
-<p># 3. Build the packaged artifact</p>
-<p>exit</p>
-<p>nix build .#my-app</p>
-<p># 4. Run the artifact directly</p>
-<p>nix run .#my-app</p>
-</code></pre>
-<p>The boundaries are strict by design and they consistently remove guesswork.</p>
-<blockquote>Core lesson: `nix develop` writes the software, `nix shell` provides it, `nix run` uses it, and `nix build` ships it.</blockquote>
+
+      <p>
+        Nix gives you reproducible Rust toolchains without polluting your system. The modern CLI splits responsibilities
+        into four commands you will use repeatedly: <code>nix develop</code>, <code>nix shell</code>, <code>nix run</code>, and <code>nix build</code>.
+      </p>
+
+      <blockquote>Four commands, four intents: develop, consume, execute, package.</blockquote>
+
+      <h2>Why this matters for Rust</h2>
+      <p>
+        Nix replaces ad-hoc global tooling with per-project environments. Each project declares its toolchain in a
+        flake or <code>shell.nix</code>, and Nix materializes it on demand.
+      </p>
+
+      <h2>nix develop: the project workspace</h2>
+      <p>
+        <code>nix develop</code> starts an interactive shell with the dependencies your project expects. It does not run your
+        build automatically; it gives you the environment so you can run your own commands.
+      </p>
+      <pre><code># Enter the default dev shell
+nix develop
+
+# Or enter a named shell
+nix develop .#rust</code></pre>
+
+      <p>Inside the shell, you can run:</p>
+      <pre><code>cargo build
+cargo clippy
+cargo test</code></pre>
+
+      <h2>nix shell: the one-off tool</h2>
+      <p>
+        <code>nix shell</code> is for consuming tools without installing them globally.
+      </p>
+      <pre><code># Run a single tool without global install
+nix shell nixpkgs#cargo-watch
+cargo-watch -x test
+
+# Use a specific version
+nix shell nixpkgs#cargo
+cargo --version</code></pre>
+
+      <h2>nix run: execute without entering</h2>
+      <p>
+        <code>nix run</code> resolves and executes in one step.
+      </p>
+      <pre><code># Run from nixpkgs
+nix run nixpkgs#cargo-audit -- audit
+
+# Run flake app outputs
+nix run .
+nix run .#my-cli -- --help</code></pre>
+
+      <h2>nix build: produce the artifact</h2>
+      <p>
+        <code>nix build</code> compiles and stores deterministic outputs in the Nix store.
+      </p>
+      <pre><code># Build default package
+nix build
+
+# Build named package
+nix build .#my-app
+
+# Inspect linked result
+ls -l ./result
+./result/bin/my-app --version</code></pre>
+
+      <h2>The command matrix</h2>
+      <table>
+        <tr><td>Intent</td><td>Command</td><td>Stops before build</td><td>Gives binary</td><td>Use case</td></tr>
+        <tr><td>Write or debug</td><td><code>nix develop</code></td><td>Yes</td><td>No</td><td>Dependency-heavy Rust work</td></tr>
+        <tr><td>Use a tool</td><td><code>nix shell</code></td><td>Yes</td><td>Yes</td><td>Ad-hoc binaries</td></tr>
+        <tr><td>Run and exit</td><td><code>nix run</code></td><td>No</td><td>No</td><td>One-shot commands</td></tr>
+        <tr><td>Compile artifact</td><td><code>nix build</code></td><td>No</td><td>Yes</td><td>Reproducible outputs</td></tr>
+      </table>
+
+      <h2>Practical Rust workflow</h2>
+      <pre><code># 1) Enter dev environment
+nix develop
+
+# 2) Build and test
+cargo check --all-targets
+cargo test
+cargo build --release
+
+# 3) Build package output
+exit
+nix build .#my-app
+
+# 4) Run packaged output
+nix run .#my-app</code></pre>
+
+      <blockquote>
+        Core lesson: <code>nix develop</code> writes software, <code>nix shell</code> provides tools,
+        <code>nix run</code> executes, and <code>nix build</code> ships.
+      </blockquote>
     </article>
 
     <footer class="footer">

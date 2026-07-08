@@ -11,6 +11,24 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://centameta.com/blogs/2026/07/06_essential-nix-commands-for-rust-projects.html</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://centameta.com/blogs/2026/07/02_rust-struct-types-regular-tuple-and-unit.html</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://centameta.com/blogs/2026/07/01_rust-error-handling-option-and-result.html</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://centameta.com/blogs/2026/06/01_features-and-use-cases-of-hermes-agent.html</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>monthly</changefreq>

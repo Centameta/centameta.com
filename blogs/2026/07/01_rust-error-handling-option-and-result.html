@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Rust error handling: Option and Result" />
-  <link rel="canonical" href="https://centameta.com2026/07/2026-07-01_rust-error-handling-option-and-result.html" />
+  <meta name="description" content="Rust error handling with Option and Result, including match patterns and the ? operator for practical systems programming." />
+  <link rel="canonical" href="https://centameta.com/blogs/2026/07/01_rust-error-handling-option-and-result.html" />
   <title>Rust error handling: Option and Result | Centameta</title>
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://centameta.com2026/07/2026-07-01_rust-error-handling-option-and-result.html" />
+  <meta property="og:url" content="https://centameta.com/blogs/2026/07/01_rust-error-handling-option-and-result.html" />
   <meta property="og:title" content="Rust error handling: Option and Result" />
-  <meta property="og:description" content="Rust error handling: Option and Result" />
+  <meta property="og:description" content="Rust error handling with Option and Result, including match patterns and the ? operator." />
   <meta property="og:image" content="https://centameta.com/logo_basic.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://centameta.com2026/07/2026-07-01_rust-error-handling-option-and-result.html" />
+  <meta name="twitter:url" content="https://centameta.com/blogs/2026/07/01_rust-error-handling-option-and-result.html" />
   <meta name="twitter:title" content="Rust error handling: Option and Result" />
-  <meta name="twitter:description" content="Rust error handling: Option and Result" />
+  <meta name="twitter:description" content="Rust error handling with Option and Result, including match patterns and the ? operator." />
   <meta name="twitter:image" content="https://centameta.com/logo_basic.png" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": "Rust error handling: Option and Result",
-    "url": "https://centameta.com2026/07/2026-07-01_rust-error-handling-option-and-result.html",
+    "url": "https://centameta.com/blogs/2026/07/01_rust-error-handling-option-and-result.html",
     "datePublished": "2026-07-01",
     "author": { "@type": "Organization", "name": "Centameta" },
     "publisher": {
@@ -81,68 +81,87 @@
       <a class="back" href="/blogs/">&larr; Back to Blog</a>
       <h1>Rust error handling: Option and Result</h1>
       <div class="meta">July 01, 2026</div>
-      <p>Rust error handling: Option and Result</p>
-<p>Rust turns many runtime errors into compile-time guarantees through two enums: `Option<T>` and `Result<T, E>`. Unlike null-pointer exceptions, you cannot ignore these values. The compiler forces you to handle them before using the underlying data.</p>
-<blockquote>Missing-value and failure cases become explicit types, not hidden assumptions.</blockquote>
-<h2>Option<T>: a value that may not exist</h2>
-<pre><code>enum Option<T> {
-<p>    Some(T),</p>
-<p>    None,</p>
-<p>}</p>
-</code></pre>
-<p>Use `Option` when a value is optional.</p>
-<pre><code>let text = map.get("missing");
-<p>match text {</p>
-<p>    Some(t) => println!("{}", t),</p>
-<p>    None => println!("not found"),</p>
-<p>}</p>
-</code></pre>
-<p>Shorthand forms:</p>
-<pre><code>if let Some(t) = text {
-<p>    println!("{}", t);</p>
-<p>}</p>
-<p>let t = text.unwrap_or("default");</p>
-</code></pre>
-<h2>Result<T, E>: an operation that may fail</h2>
-<pre><code>enum Result<T, E> {
-<p>    Ok(T),</p>
-<p>    Err(E),</p>
-<p>}</p>
-</code></pre>
-<p>Use `Result` for operations that can fail with a typed reason.</p>
-<pre><code>match fs::read_to_string(path) {
-<p>    Ok(data) => process(data),</p>
-<p>    Err(Error::NotFound) => eprintln!("missing file"),</p>
-<p>    Err(Error::PermissionDenied) => eprintln!("access denied"),</p>
-<p>    Err(e) => eprintln!("io failed: {}", e),</p>
-<p>}</p>
-</code></pre>
-<h2>Pattern matching as try/catch</h2>
-<p>The closest equivalent to try/catch with per-error behavior is `match` on `Result`.</p>
-<tr><td>Pattern</td><td>Purpose</td></tr>
-<p>|:--|:--|</p>
-<tr><td>`match result { ... }`</td><td>exhaustive per-error handling</td></tr>
-<tr><td>`if let Err(e) = result { ... }`</td><td>handle one variant</td></tr>
-<tr><td>`result.map_err(</td><td>e</td><td>handle(e))?`</td><td>transform then propagate</td></tr>
-<tr><td>`?` operator</td><td>return error to caller immediately</td></tr>
-<pre><code>match parse_config(path) {
-<p>    Ok(cfg) => run(cfg),</p>
-<p>    Err(ConfigError::Missing(key)) => eprintln!("missing key: {}", key),</p>
-<p>    Err(ConfigError::Parse(e)) => eprintln!("parse failed: {}", e),</p>
-<p>    Err(e) => return Err(e),</p>
-<p>}</p>
-</code></pre>
-<h2>The ? operator</h2>
-<p>`?` unwraps `Ok` and returns `Err` early from the current function. It replaces nested `match` for linear happy-path flow.</p>
-<pre><code>fn load() -> Result<Config, ConfigError> {
-<p>    let text = fs::read_to_string(path)?;</p>
-<p>    let cfg = parse(&text)?;</p>
-<p>    Ok(cfg)</p>
-<p>}</p>
-</code></pre>
-<h2>Why not exceptions</h2>
-<p>Exceptions hide control flow. A function can return normally or throw from anywhere, making reasoning about state harder. Rust errors are values. They flow through the type system, are explicit in signatures, and cannot be silently ignored.</p>
-<blockquote>Core lesson: handle missing data with `Option`, handle recoverable failure with `Result`, and reserve panics for unrecoverable program invariants.</blockquote>
+
+      <p>
+        Rust turns many runtime errors into compile-time guarantees through two enums: <code>Option&lt;T&gt;</code> and <code>Result&lt;T, E&gt;</code>.
+        Unlike null-pointer exceptions, you cannot ignore these values. The compiler forces you to handle them before using the underlying data.
+      </p>
+
+      <blockquote>Missing-value and failure cases become explicit types, not hidden assumptions.</blockquote>
+
+      <h2>Option&lt;T&gt;: a value that may not exist</h2>
+      <pre><code>enum Option&lt;T&gt; {
+    Some(T),
+    None,
+}</code></pre>
+
+      <p>Use <code>Option</code> when a value is optional.</p>
+      <pre><code>let text = map.get("missing");
+match text {
+    Some(t) =&gt; println!("{}", t),
+    None =&gt; println!("not found"),
+}</code></pre>
+
+      <p>Shorthand forms:</p>
+      <pre><code>if let Some(t) = text {
+    println!("{}", t);
+}
+
+let t = text.unwrap_or("default");</code></pre>
+
+      <h2>Result&lt;T, E&gt;: an operation that may fail</h2>
+      <pre><code>enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}</code></pre>
+
+      <p>Use <code>Result</code> for operations that can fail with a typed reason.</p>
+      <pre><code>match fs::read_to_string(path) {
+    Ok(data) =&gt; process(data),
+    Err(Error::NotFound) =&gt; eprintln!("missing file"),
+    Err(Error::PermissionDenied) =&gt; eprintln!("access denied"),
+    Err(e) =&gt; eprintln!("io failed: {}", e),
+}</code></pre>
+
+      <h2>Pattern matching as try/catch</h2>
+      <p>The closest equivalent to try/catch with per-error behavior is <code>match</code> on <code>Result</code>.</p>
+
+      <table>
+        <tr><td>Pattern</td><td>Purpose</td></tr>
+        <tr><td><code>match result { ... }</code></td><td>Exhaustive per-error handling</td></tr>
+        <tr><td><code>if let Err(e) = result { ... }</code></td><td>Handle one variant</td></tr>
+        <tr><td><code>result.map_err(|e| handle(e))?</code></td><td>Transform then propagate</td></tr>
+        <tr><td><code>?</code> operator</td><td>Return error to caller immediately</td></tr>
+      </table>
+
+      <pre><code>match parse_config(path) {
+    Ok(cfg) =&gt; run(cfg),
+    Err(ConfigError::Missing(key)) =&gt; eprintln!("missing key: {}", key),
+    Err(ConfigError::Parse(e)) =&gt; eprintln!("parse failed: {}", e),
+    Err(e) =&gt; return Err(e),
+}</code></pre>
+
+      <h2>The ? operator</h2>
+      <p>
+        <code>?</code> unwraps <code>Ok</code> and returns <code>Err</code> early from the current function.
+        It replaces nested <code>match</code> blocks for linear happy-path flow.
+      </p>
+      <pre><code>fn load() -&gt; Result&lt;Config, ConfigError&gt; {
+    let text = fs::read_to_string(path)?;
+    let cfg = parse(&amp;text)?;
+    Ok(cfg)
+}</code></pre>
+
+      <h2>Why not exceptions</h2>
+      <p>
+        Exceptions hide control flow. A function can return normally or throw from anywhere, making reasoning about state harder.
+        Rust errors are values: they flow through the type system, are explicit in signatures, and cannot be silently ignored.
+      </p>
+
+      <blockquote>
+        Core lesson: handle missing data with <code>Option</code>, handle recoverable failure with <code>Result</code>,
+        and reserve panics for unrecoverable program invariants.
+      </blockquote>
     </article>
     <footer class="footer">
       <a href="/">Centameta</a> · Engineering Depth for Intelligent Products
